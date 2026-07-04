@@ -388,6 +388,20 @@ document.getElementById("btn-premium").addEventListener("click", () => {
     <button class="btn btn-gold btn-sm" disabled>Teşekkürler</button>`;
 });
 
+const cookieBanner = document.getElementById("cookie-banner");
+if (!sessionStorage.getItem("redin_cookies")) {
+  setTimeout(() => (cookieBanner.hidden = false), 900);
+}
+document.querySelectorAll(".cookie-accept").forEach((btn) =>
+  btn.addEventListener("click", () => {
+    sessionStorage.setItem("redin_cookies", "1");
+    document.getElementById("cookie-text").textContent = "Tercihiniz kaydedildi. (Zaten tek tercihti.)";
+    document.querySelector(".cookie-actions").remove();
+    setTimeout(() => cookieBanner.classList.add("cookie-out"), 1600);
+    setTimeout(() => cookieBanner.remove(), 2200);
+  })
+);
+
 document.getElementById("stat-rejections").textContent = state.rejections;
 renderBadges();
 renderFeed("feed");
