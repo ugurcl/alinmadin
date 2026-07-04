@@ -15,11 +15,31 @@ function wrapText(ctx, text, maxWidth) {
   return lines;
 }
 
+function fitFontSize(ctx, text, baseSize, maxWidth, minSize, family) {
+  let size = baseSize;
+  while (size > minSize) {
+    ctx.font = `bold ${size}px ${family}`;
+    if (ctx.measureText(text).width <= maxWidth) break;
+    size -= 2;
+  }
+  return size;
+}
+
+function drawCenteredWrapped(ctx, text, x, y, maxWidth, lineHeight) {
+  const lines = wrapText(ctx, text, maxWidth);
+  for (const line of lines) {
+    ctx.fillText(line, x, y);
+    y += lineHeight;
+  }
+  return y;
+}
+
 function renderCertificate(name, position, letter, company) {
   const canvas = document.getElementById("certificate");
   const ctx = canvas.getContext("2d");
   const W = canvas.width;
   const H = canvas.height;
+  const maxW = W - 220;
 
   ctx.fillStyle = "#fbfaf7";
   ctx.fillRect(0, 0, W, H);
@@ -30,10 +50,13 @@ function renderCertificate(name, position, letter, company) {
   ctx.lineWidth = 2;
   ctx.strokeRect(56, 56, W - 112, H - 112);
 
+  const companyText = (company || "Vizyoner Global Teknoloji A.Ş.").toLocaleUpperCase("tr-TR");
   ctx.fillStyle = "#1a2942";
   ctx.textAlign = "center";
-  ctx.font = "bold 40px Georgia";
-  ctx.fillText((company || "Vizyoner Global Teknoloji A.Ş.").toLocaleUpperCase("tr-TR"), W / 2, 150);
+  const headerSize = fitFontSize(ctx, companyText, 40, maxW, 24, "Georgia");
+  ctx.font = `bold ${headerSize}px Georgia`;
+  ctx.fillText(companyText, W / 2, 150);
+
   ctx.font = "28px Georgia";
   ctx.fillStyle = "#6b7684";
   ctx.fillText("İnsan Kaynakları Direktörlüğü", W / 2, 195);
@@ -44,22 +67,34 @@ function renderCertificate(name, position, letter, company) {
 
   ctx.fillStyle = "#22303f";
   ctx.font = "30px Georgia";
-  ctx.fillText(`İşbu belge, sayın ${name || "Aday"}'ın`, W / 2, 400);
-  ctx.fillText(`"${position}" pozisyonuna`, W / 2, 445);
-  ctx.fillText("KESİNLİKLE UYGUN OLMADIĞINI onaylar.", W / 2, 490);
+  let y = 400;
+  y = drawCenteredWrapped(ctx, `İşbu belge, sayın ${name || "Aday"}'ın`, W / 2, y, maxW, 42);
+  y = drawCenteredWrapped(ctx, `"${position}" pozisyonuna`, W / 2, y, maxW, 42);
+  y = drawCenteredWrapped(ctx, "KESİNLİKLE UYGUN OLMADIĞINI onaylar.", W / 2, y, maxW, 42);
+  y += 30;
 
   ctx.textAlign = "left";
   ctx.font = "26px Georgia";
-  const excerpt = letter.length > 420 ? letter.slice(0, 420) + "..." : letter;
-  let y = 570;
-  for (const para of excerpt.split("\n")) {
-    for (const line of wrapText(ctx, para, W - 220)) {
-      ctx.fillText(line, 110, y);
-      y += 38;
-      if (y > H - 260) break;
+  const bottomLimit = H - 250;
+  const lineHeight = 38;
+  let truncated = false;
+  outer: for (const para of letter.split("\n")) {
+    if (!para.trim()) {
+      y += 14;
+      continue;
     }
-    y += 12;
-    if (y > H - 260) break;
+    for (const line of wrapText(ctx, para, maxW)) {
+      if (y + lineHeight > bottomLimit) {
+        truncated = true;
+        break outer;
+      }
+      ctx.fillText(line, 110, y);
+      y += lineHeight;
+    }
+    y += 10;
+  }
+  if (truncated) {
+    ctx.fillText("...", 110, Math.min(y, bottomLimit));
   }
 
   ctx.save();
