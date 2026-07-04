@@ -16,6 +16,23 @@ function showPhase(id) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+const LOGO_COLORS = [
+  "linear-gradient(135deg, #667eea, #764ba2)",
+  "linear-gradient(135deg, #f5576c, #b91d3a)",
+  "linear-gradient(135deg, #4facfe, #00c6a7)",
+  "linear-gradient(135deg, #fa709a, #f7b733)",
+  "linear-gradient(135deg, #30cfd0, #330867)",
+  "linear-gradient(135deg, #2af598, #009efd)",
+  "linear-gradient(135deg, #f2994a, #b34700)",
+  "linear-gradient(135deg, #8e2de2, #4a00e0)",
+  "linear-gradient(135deg, #11998e, #38ef7d)",
+  "linear-gradient(135deg, #536976, #292e49)",
+];
+
+function logoColor(job) {
+  return LOGO_COLORS[LISTINGS.indexOf(job) % LOGO_COLORS.length];
+}
+
 function renderJobList() {
   const list = document.getElementById("job-list");
   list.innerHTML = "";
@@ -24,7 +41,7 @@ function renderJobList() {
     row.className = "job-row";
     row.style.animationDelay = `${i * 60}ms`;
     row.innerHTML = `
-      <div class="company-logo">${job.emoji}</div>
+      <div class="company-logo" style="background:${logoColor(job)}">${job.emoji}</div>
       <div class="job-info">
         <div class="job-title">${job.title}</div>
         <div class="job-company">${job.company}</div>
@@ -39,7 +56,9 @@ function renderJobList() {
 
 function openDetail(job) {
   state.listing = job;
-  document.getElementById("detail-emoji").textContent = job.emoji;
+  const logo = document.getElementById("detail-emoji");
+  logo.textContent = job.emoji;
+  logo.style.background = logoColor(job);
   document.getElementById("detail-title").textContent = job.title;
   document.getElementById("detail-company").textContent = job.company;
   document.getElementById("detail-meta").textContent = job.meta;
@@ -71,9 +90,13 @@ function pushTicker() {
   const ticker = document.getElementById("ticker");
   const name = TICKER_NAMES[Math.floor(Math.random() * TICKER_NAMES.length)];
   const reason = TICKER_REASONS[Math.floor(Math.random() * TICKER_REASONS.length)];
+  const initials = name.split(" ").map((p) => p[0]).join("");
+  const color = LOGO_COLORS[Math.floor(Math.random() * LOGO_COLORS.length)];
   const item = document.createElement("div");
   item.className = "ticker-item";
-  item.innerHTML = `<strong>${name}</strong> ${reason}<time>az önce</time>`;
+  item.innerHTML = `
+    <div class="ticker-avatar" style="background:${color}">${initials}</div>
+    <div><strong>${name}</strong> ${reason}<time>az önce</time></div>`;
   ticker.prepend(item);
   while (ticker.children.length > 5) ticker.lastChild.remove();
 }
