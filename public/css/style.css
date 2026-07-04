@@ -396,6 +396,94 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.post-card {
+  padding: 18px 22px 10px;
+}
+
+.post-head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.post-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.post-author strong {
+  font-size: 0.92rem;
+}
+
+.post-follow {
+  color: var(--blue);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.post-author .small {
+  line-height: 1.3;
+}
+
+.post-time {
+  font-size: 0.73rem;
+}
+
+.post-text {
+  font-size: 0.9rem;
+  white-space: pre-line;
+  margin: 12px 0 10px;
+}
+
+.post-stats {
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0eeea;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 0;
+}
+
+.post-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.post-action:hover {
+  background: #f1f4f8;
+  color: var(--text);
+}
+
+.post-action .icon {
+  width: 17px;
+  height: 17px;
+}
+
+.post-action.liked {
+  color: var(--blue);
+}
+
 .ticker-title {
   font-size: 0.95rem;
   margin-bottom: 12px;

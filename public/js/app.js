@@ -57,25 +57,82 @@ function logoColor(job) {
   return LOGO_COLORS[LISTINGS.indexOf(job) % LOGO_COLORS.length];
 }
 
-function renderJobList() {
-  const list = document.getElementById("job-list");
-  list.innerHTML = "";
-  LISTINGS.forEach((job, i) => {
-    const row = document.createElement("div");
-    row.className = "job-row";
-    row.style.animationDelay = `${i * 60}ms`;
-    row.innerHTML = `
-      <div class="company-logo" style="background:${logoColor(job)}">${job.abbr}</div>
-      <div class="job-info">
-        <div class="job-title">${job.title}</div>
-        <div class="job-company">${job.company}</div>
-        <div class="job-meta">${job.meta}</div>
-        ${job.easy ? '<div class="easy-apply">Kolay Başvuru (Kolay Red)</div>' : ""}
+function buildJobRow(job, i) {
+  const row = document.createElement("div");
+  row.className = "job-row";
+  row.style.animationDelay = `${i * 60}ms`;
+  row.innerHTML = `
+    <div class="company-logo" style="background:${logoColor(job)}">${job.abbr}</div>
+    <div class="job-info">
+      <div class="job-title">${job.title}</div>
+      <div class="job-company">${job.company}</div>
+      <div class="job-meta">${job.meta}</div>
+      ${job.easy ? '<div class="easy-apply">Kolay Başvuru (Kolay Red)</div>' : ""}
+    </div>
+    <div class="job-badge">${job.badge}</div>`;
+  row.addEventListener("click", () => openDetail(job));
+  return row;
+}
+
+function buildPostCard(post, index) {
+  const card = document.createElement("div");
+  card.className = "card post-card";
+  const color = LOGO_COLORS[index % LOGO_COLORS.length];
+  card.innerHTML = `
+    <div class="post-head">
+      <div class="post-avatar" style="background:${color}">${post.initials}</div>
+      <div class="post-author">
+        <strong>${post.author}</strong><span class="post-follow"> · Takip Et</span>
+        <p class="muted small">${post.title}</p>
+        <p class="muted post-time">${post.time}</p>
       </div>
-      <div class="job-badge">${job.badge}</div>`;
-    row.addEventListener("click", () => openDetail(job));
-    list.appendChild(row);
+    </div>
+    <p class="post-text">${post.text}</p>
+    <div class="post-stats">
+      <span class="like-count">${post.likes} beğeni</span> · ${post.comments}
+    </div>
+    <div class="post-actions">
+      <span class="post-action act-like">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>
+        Beğen
+      </span>
+      <span class="post-action">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Yorum Yap
+      </span>
+      <span class="post-action">
+        <svg class="icon" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+        Paylaş
+      </span>
+    </div>`;
+  const likeBtn = card.querySelector(".act-like");
+  likeBtn.addEventListener("click", () => {
+    if (likeBtn.classList.contains("liked")) return;
+    likeBtn.classList.add("liked");
+    likeBtn.lastChild.textContent = " Beğendin (geri alamazsın)";
   });
+  return card;
+}
+
+function renderFeed() {
+  const stream = document.getElementById("feed-stream");
+  stream.innerHTML = "";
+  const chunkSize = 3;
+  let postIndex = 0;
+  for (let i = 0; i < LISTINGS.length; i += chunkSize) {
+    const listCard = document.createElement("div");
+    listCard.className = "card job-list";
+    LISTINGS.slice(i, i + chunkSize).forEach((job, j) => listCard.appendChild(buildJobRow(job, j)));
+    stream.appendChild(listCard);
+    if (postIndex < POSTS.length) {
+      stream.appendChild(buildPostCard(POSTS[postIndex], postIndex));
+      postIndex++;
+    }
+  }
+  while (postIndex < POSTS.length) {
+    stream.appendChild(buildPostCard(POSTS[postIndex], postIndex));
+    postIndex++;
+  }
 }
 
 function openDetail(job) {
@@ -317,7 +374,7 @@ document.getElementById("btn-premium").addEventListener("click", () => {
 
 document.getElementById("stat-rejections").textContent = state.rejections;
 renderBadges();
-renderJobList();
+renderFeed();
 pushTicker();
 pushTicker();
 pushTicker();
