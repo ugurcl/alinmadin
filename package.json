@@ -1,0 +1,14 @@
+{
+  "name": "alinmadin",
+  "version": "0.1.0",
+  "description": "İşe Alınmama Simülatörü — garanti red, %100 başarısızlık",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
