@@ -114,26 +114,30 @@ function buildPostCard(post, index) {
   return card;
 }
 
-function renderFeed() {
+function renderFeed(tab) {
   const stream = document.getElementById("feed-stream");
+  const subtitle = document.getElementById("feed-subtitle");
   stream.innerHTML = "";
-  const chunkSize = 3;
-  let postIndex = 0;
-  for (let i = 0; i < LISTINGS.length; i += chunkSize) {
+  if (tab === "jobs") {
+    subtitle.textContent = "Profiline göre uygun olmadığın pozisyonları listeledik";
     const listCard = document.createElement("div");
     listCard.className = "card job-list";
-    LISTINGS.slice(i, i + chunkSize).forEach((job, j) => listCard.appendChild(buildJobRow(job, j)));
+    LISTINGS.forEach((job, i) => listCard.appendChild(buildJobRow(job, i)));
     stream.appendChild(listCard);
-    if (postIndex < POSTS.length) {
-      stream.appendChild(buildPostCard(POSTS[postIndex], postIndex));
-      postIndex++;
-    }
+    return;
   }
-  while (postIndex < POSTS.length) {
-    stream.appendChild(buildPostCard(POSTS[postIndex], postIndex));
-    postIndex++;
-  }
+  subtitle.textContent = "Ağındaki profesyonellerden ilham verici paylaşımlar";
+  POSTS.forEach((post, i) => stream.appendChild(buildPostCard(post, i)));
 }
+
+function activateTab(tab) {
+  document.getElementById("tab-feed").classList.toggle("active", tab === "feed");
+  document.getElementById("tab-jobs").classList.toggle("active", tab === "jobs");
+  renderFeed(tab);
+}
+
+document.getElementById("tab-feed").addEventListener("click", () => activateTab("feed"));
+document.getElementById("tab-jobs").addEventListener("click", () => activateTab("jobs"));
 
 function openDetail(job) {
   state.listing = job;
@@ -374,7 +378,7 @@ document.getElementById("btn-premium").addEventListener("click", () => {
 
 document.getElementById("stat-rejections").textContent = state.rejections;
 renderBadges();
-renderFeed();
+renderFeed("feed");
 pushTicker();
 pushTicker();
 pushTicker();
