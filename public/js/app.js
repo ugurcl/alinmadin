@@ -3,8 +3,32 @@ const state = {
   position: "",
   listing: null,
   history: [],
-  rejections: 0,
+  rejections: Number(localStorage.getItem("redin_rejections") || 0),
 };
+
+const BADGES = [
+  { at: 1, name: "İlk Red", desc: "Herkes bir yerden başlar" },
+  { at: 3, name: "Azimli", desc: "Üç red, sıfır ders" },
+  { at: 5, name: "Umut Fakiri", desc: "Beş kez denedi, beş kez emin olduk" },
+  { at: 10, name: "Havuz Sakini", desc: "CV'niz artık demirbaş" },
+  { at: 25, name: "Buket Sizi İsminizle Tanıyor", desc: "Bu bir iltifat değil" },
+];
+
+function earnedBadges(count) {
+  return BADGES.filter((b) => count >= b.at);
+}
+
+function renderBadges() {
+  const list = document.getElementById("badge-list");
+  const earned = earnedBadges(state.rejections);
+  if (!earned.length) {
+    list.innerHTML = "";
+    return;
+  }
+  list.innerHTML =
+    `<hr><p class="badge-list-title">Başarımların</p>` +
+    earned.map((b) => `<span class="badge-pill" title="${b.desc}">${b.name}</span>`).join("");
+}
 
 const phases = document.querySelectorAll(".phase");
 const chatLog = document.getElementById("chat-log");
@@ -171,8 +195,18 @@ function dropConfetti() {
 }
 
 function finishInterview(letter) {
+  const before = earnedBadges(state.rejections).length;
   state.rejections += 1;
+  localStorage.setItem("redin_rejections", state.rejections);
   document.getElementById("stat-rejections").textContent = state.rejections;
+  renderBadges();
+  const fresh = earnedBadges(state.rejections).slice(before);
+  const banner = document.getElementById("badge-earned");
+  banner.innerHTML = fresh
+    .map(
+      (b) => `<div class="badge-banner">Yeni başarım kazandınız: <strong>${b.name}</strong> — ${b.desc}</div>`
+    )
+    .join("");
   setTimeout(() => {
     document.getElementById("rejection-text").textContent = letter;
     renderCertificate(state.name, state.position, letter, state.listing?.company);
@@ -281,6 +315,8 @@ document.getElementById("btn-premium").addEventListener("click", () => {
     <button class="btn btn-gold btn-sm" disabled>Teşekkürler</button>`;
 });
 
+document.getElementById("stat-rejections").textContent = state.rejections;
+renderBadges();
 renderJobList();
 pushTicker();
 pushTicker();
