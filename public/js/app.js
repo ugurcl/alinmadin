@@ -3,6 +3,7 @@ const state = {
   position: "",
   listing: null,
   history: [],
+  rejections: 0,
 };
 
 const phases = document.querySelectorAll(".phase");
@@ -15,26 +16,33 @@ function showPhase(id) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function renderJobGrid() {
-  const grid = document.getElementById("job-grid");
-  grid.innerHTML = "";
-  for (const job of LISTINGS) {
-    const card = document.createElement("div");
-    card.className = "job-card";
-    card.innerHTML = `
-      <span class="badge">${job.badge}</span>
-      <h3>${job.title}</h3>
-      <p class="muted small">${job.meta}</p>
-      <button class="btn btn-primary btn-sm">İncele ve Reddedil</button>`;
-    card.querySelector("button").addEventListener("click", () => openDetail(job));
-    grid.appendChild(card);
-  }
+function renderJobList() {
+  const list = document.getElementById("job-list");
+  list.innerHTML = "";
+  LISTINGS.forEach((job, i) => {
+    const row = document.createElement("div");
+    row.className = "job-row";
+    row.style.animationDelay = `${i * 60}ms`;
+    row.innerHTML = `
+      <div class="company-logo">${job.emoji}</div>
+      <div class="job-info">
+        <div class="job-title">${job.title}</div>
+        <div class="job-company">${job.company}</div>
+        <div class="job-meta">${job.meta}</div>
+        ${job.easy ? '<div class="easy-apply">⚡ Kolay Başvuru (Kolay Red)</div>' : ""}
+      </div>
+      <div class="job-badge">${job.badge}</div>`;
+    row.addEventListener("click", () => openDetail(job));
+    list.appendChild(row);
+  });
 }
 
 function openDetail(job) {
   state.listing = job;
+  document.getElementById("detail-emoji").textContent = job.emoji;
   document.getElementById("detail-title").textContent = job.title;
-  document.getElementById("detail-meta").textContent = `Vizyoner Global Teknoloji A.Ş. · ${job.meta}`;
+  document.getElementById("detail-company").textContent = job.company;
+  document.getElementById("detail-meta").textContent = job.meta;
   document.getElementById("detail-badge").textContent = job.badge;
   const reqs = document.getElementById("detail-requirements");
   const perks = document.getElementById("detail-perks");
@@ -43,6 +51,31 @@ function openDetail(job) {
   for (const r of job.requirements) reqs.insertAdjacentHTML("beforeend", `<li>${r}</li>`);
   for (const p of job.perks) perks.insertAdjacentHTML("beforeend", `<li>${p}</li>`);
   showPhase("phase-detail");
+}
+
+const TICKER_NAMES = ["Mehmet K.", "Ayşe T.", "Emre D.", "Zeynep A.", "Burak S.", "Elif Y.", "Can Ö.", "Selin M.", "Oğuz H.", "Merve B."];
+const TICKER_REASONS = [
+  "fazla gülümsediği için reddedildi",
+  "az gülümsediği için reddedildi",
+  "maaş sorunca reddedildi",
+  "CV'sinde Comic Sans kullandığı için reddedildi",
+  "referans olarak annesini yazdığı için reddedildi",
+  "mülakata tam vaktinde geldiği için reddedildi (fazla planlı)",
+  "'ben takım oyuncusuyum' derken göz teması kurduğu için reddedildi",
+  "5 yıl sonra kendini müdür olarak gördüğü için reddedildi",
+  "hobisi 'kitap okumak' olduğu için reddedildi (yaratıcılık eksikliği)",
+  "el sıkışı fazla kendinden emin bulunduğu için reddedildi",
+];
+
+function pushTicker() {
+  const ticker = document.getElementById("ticker");
+  const name = TICKER_NAMES[Math.floor(Math.random() * TICKER_NAMES.length)];
+  const reason = TICKER_REASONS[Math.floor(Math.random() * TICKER_REASONS.length)];
+  const item = document.createElement("div");
+  item.className = "ticker-item";
+  item.innerHTML = `<strong>${name}</strong> ${reason}<time>az önce</time>`;
+  ticker.prepend(item);
+  while (ticker.children.length > 5) ticker.lastChild.remove();
 }
 
 function addMessage(role, text) {
@@ -99,18 +132,38 @@ async function sendToHr() {
   }
 }
 
+function dropConfetti() {
+  const emojis = ["❌", "📄", "😢", "🚫", "📉"];
+  for (let i = 0; i < 28; i++) {
+    const piece = document.createElement("span");
+    piece.className = "confetti";
+    piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    piece.style.left = `${Math.random() * 100}vw`;
+    piece.style.animationDuration = `${2.2 + Math.random() * 2.5}s`;
+    piece.style.animationDelay = `${Math.random() * 0.8}s`;
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 6000);
+  }
+}
+
 function finishInterview(letter) {
+  state.rejections += 1;
+  document.getElementById("stat-rejections").textContent = state.rejections;
   setTimeout(() => {
     document.getElementById("rejection-text").textContent = letter;
-    renderCertificate(state.name, state.position, letter);
+    renderCertificate(state.name, state.position, letter, state.listing?.company);
+    const card = document.querySelector(".rejection");
+    card.classList.remove("slam", "shake");
     showPhase("phase-rejection");
+    requestAnimationFrame(() => card.classList.add("slam", "shake"));
+    dropConfetti();
   }, 800);
 }
 
 document.getElementById("btn-back").addEventListener("click", () => showPhase("phase-listings"));
 
 document.getElementById("btn-apply").addEventListener("click", () => {
-  document.getElementById("input-position").value = state.listing.title;
+  document.getElementById("input-position").value = `${state.listing.title} — ${state.listing.company}`;
   showPhase("phase-form");
   document.getElementById("input-name").focus();
 });
@@ -146,7 +199,7 @@ document.getElementById("btn-download").addEventListener("click", downloadCertif
 
 document.getElementById("btn-tweet").addEventListener("click", () => {
   const text = encodeURIComponent(
-    `"${state.position}" pozisyonundan resmen reddedildim. 🎉 Sen de reddedilmek için: ${location.origin}`
+    `"${state.listing?.title}" pozisyonundan resmen reddedildim. 🎉 Sen de reddedilmek için: ${location.origin}`
   );
   window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
 });
@@ -158,4 +211,8 @@ document.getElementById("btn-retry").addEventListener("click", () => {
   showPhase("phase-listings");
 });
 
-renderJobGrid();
+renderJobList();
+pushTicker();
+pushTicker();
+pushTicker();
+setInterval(pushTicker, 6000);

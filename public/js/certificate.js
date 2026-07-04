@@ -15,7 +15,7 @@ function wrapText(ctx, text, maxWidth) {
   return lines;
 }
 
-function renderCertificate(name, position, letter) {
+function renderCertificate(name, position, letter, company) {
   const canvas = document.getElementById("certificate");
   const ctx = canvas.getContext("2d");
   const W = canvas.width;
@@ -32,8 +32,8 @@ function renderCertificate(name, position, letter) {
 
   ctx.fillStyle = "#1a2942";
   ctx.textAlign = "center";
-  ctx.font = "bold 44px Georgia";
-  ctx.fillText("VİZYONER GLOBAL TEKNOLOJİ A.Ş.", W / 2, 150);
+  ctx.font = "bold 40px Georgia";
+  ctx.fillText((company || "Vizyoner Global Teknoloji A.Ş.").toLocaleUpperCase("tr-TR"), W / 2, 150);
   ctx.font = "28px Georgia";
   ctx.fillStyle = "#6b7684";
   ctx.fillText("İnsan Kaynakları Direktörlüğü", W / 2, 195);
