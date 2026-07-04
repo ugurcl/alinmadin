@@ -4,15 +4,29 @@ import { nextKey, benchKey, keyCount } from "./keys.js";
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 const RETRYABLE = /429|401|403|quota|RESOURCE_EXHAUSTED|API_KEY_INVALID/i;
 
+function buildContents(history, isFinal) {
+  const contents = [];
+  for (const m of history) {
+    const role = m.role === "user" ? "user" : "model";
+    const last = contents[contents.length - 1];
+    if (last && last.role === role) {
+      last.parts[0].text += `\n${m.text}`;
+    } else {
+      contents.push({ role, parts: [{ text: m.text }] });
+    }
+  }
+  if (isFinal) {
+    const last = contents[contents.length - 1];
+    const marker = "SON_TUR: Mülakatı bitir ve red mektubunu yaz.";
+    if (last && last.role === "user") last.parts[0].text += `\n${marker}`;
+    else contents.push({ role: "user", parts: [{ text: marker }] });
+  }
+  return contents;
+}
+
 async function callOnce(apiKey, history, isFinal) {
   const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-  const contents = history.map((m) => ({
-    role: m.role === "user" ? "user" : "model",
-    parts: [{ text: m.text }],
-  }));
-  if (isFinal) {
-    contents.push({ role: "user", parts: [{ text: "SON_TUR: Mülakatı bitir ve red mektubunu yaz." }] });
-  }
+  const contents = buildContents(history, isFinal);
 
   const res = await fetch(`${BASE}/${model}:generateContent`, {
     method: "POST",
@@ -26,7 +40,8 @@ async function callOnce(apiKey, history, isFinal) {
       generationConfig: {
         responseMimeType: "application/json",
         temperature: 1.1,
-        maxOutputTokens: 1024,
+        maxOutputTokens: 4096,
+        thinkingConfig: { thinkingBudget: 0 },
       },
     }),
   });
@@ -37,11 +52,17 @@ async function callOnce(apiKey, history, isFinal) {
   }
 
   const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-  const reply = JSON.parse(text);
+  const parts = data.candidates?.[0]?.content?.parts || [];
+  const text = parts.map((p) => p.text || "").join("").trim();
+  if (!text) {
+    throw new Error(`empty response, finishReason: ${data.candidates?.[0]?.finishReason}`);
+  }
+  const cleaned = text.replace(/^```(json)?\s*/i, "").replace(/```\s*$/, "");
+  const reply = JSON.parse(cleaned);
   if (reply.type !== "question" && reply.type !== "rejection") {
     throw new Error("unexpected reply shape");
   }
+  reply.text = String(reply.text);
   return reply;
 }
 

@@ -38,7 +38,7 @@ export function handleChat(req, res) {
         : mockInterviewer(clean, isFinal, String(name).slice(0, 60));
       send(res, 200, reply);
     } catch (err) {
-      console.error(err.message);
+      console.error(new Date().toISOString(), err.message);
       send(res, 500, { error: "İK sistemimizde teknik bir aksaklık oluştu. Yine de alınmayacaktınız." });
     }
   });
