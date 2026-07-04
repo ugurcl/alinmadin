@@ -141,6 +141,24 @@ function activateTab(tab) {
 document.getElementById("tab-feed").addEventListener("click", () => activateTab("feed"));
 document.getElementById("tab-jobs").addEventListener("click", () => activateTab("jobs"));
 
+function setupDropdown(navId, panelId) {
+  const nav = document.getElementById(navId);
+  const panel = document.getElementById(panelId);
+  nav.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const willOpen = panel.hidden;
+    document.querySelectorAll(".dropdown").forEach((d) => (d.hidden = true));
+    panel.hidden = !willOpen;
+  });
+  panel.addEventListener("click", (e) => e.stopPropagation());
+}
+
+document.addEventListener("click", () => {
+  document.querySelectorAll(".dropdown").forEach((d) => (d.hidden = true));
+});
+
+setupDropdown("nav-messages", "panel-messages");
+
 document.getElementById("nav-home").addEventListener("click", () => {
   showPhase("phase-listings");
   activateTab("feed");

@@ -183,6 +183,87 @@ body {
   background: var(--red);
 }
 
+.nav-item {
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(340px, calc(100vw - 24px));
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 36px rgba(23, 43, 77, 0.16);
+  text-align: left;
+  cursor: default;
+  z-index: 70;
+  animation: fadein 0.2s ease;
+}
+
+.dropdown-head {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dd-item {
+  display: flex;
+  gap: 11px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #f0eeea;
+  font-weight: 400;
+}
+
+.dd-item:last-child {
+  border-bottom: none;
+}
+
+.dd-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dd-body {
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.dd-body strong {
+  font-size: 0.85rem;
+}
+
+.dd-body p {
+  margin: 3px 0;
+}
+
+.dd-seen {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-style: italic;
+}
+
+.dd-seen .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--blue);
+}
+
 .phase {
   display: none;
 }
