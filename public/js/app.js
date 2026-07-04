@@ -271,6 +271,16 @@ document.getElementById("btn-retry").addEventListener("click", () => {
   showPhase("phase-listings");
 });
 
+document.getElementById("btn-premium").addEventListener("click", () => {
+  const card = document.getElementById("premium-card");
+  card.innerHTML = `
+    <span class="premium-tag">GOLD</span>
+    <h3>Ödemeniz Alındı</h3>
+    <p class="small" style="margin-top:8px">Premium aktifleştirilmedi. Şirket kültürümüze uygun davrandık.</p>
+    <p class="muted small" style="margin-top:8px">İade politikamız: yok.<br>Fatura: e-posta adresinize gönderilmedi.</p>
+    <button class="btn btn-gold btn-sm" disabled>Teşekkürler</button>`;
+});
+
 renderJobList();
 pushTicker();
 pushTicker();

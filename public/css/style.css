@@ -803,6 +803,72 @@ input:focus, textarea:focus, select:focus {
   flex-wrap: wrap;
 }
 
+.premium-card {
+  position: relative;
+  border: 1px solid #e3cf8f;
+  background: linear-gradient(160deg, #fffdf5, #fbf3dc);
+}
+
+.premium-tag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #d4af37, #a8842c);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 3px 9px;
+  border-radius: 10px;
+}
+
+.premium-card h3 {
+  font-size: 1rem;
+  color: #7a5d15;
+}
+
+.premium-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 4px;
+}
+
+.premium-list li {
+  font-size: 0.8rem;
+  padding-left: 18px;
+  position: relative;
+  margin: 5px 0;
+}
+
+.premium-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d4af37;
+}
+
+.premium-price {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #7a5d15;
+  margin-top: 8px;
+}
+
+.btn-gold {
+  background: linear-gradient(180deg, #e0bc4e, #c49a2e);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(196, 154, 46, 0.35);
+  margin-top: 12px;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(180deg, #d4af37, #a8842c);
+}
+
 .footer {
   border-top: 1px solid var(--border);
   padding: 24px 0;
