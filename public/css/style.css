@@ -264,6 +264,27 @@ body {
   color: var(--blue);
 }
 
+.dd-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--blue);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.dd-time {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.dd-more p {
+  color: var(--blue);
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+
 .phase {
   display: none;
 }

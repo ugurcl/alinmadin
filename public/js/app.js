@@ -158,6 +158,7 @@ document.addEventListener("click", () => {
 });
 
 setupDropdown("nav-messages", "panel-messages");
+setupDropdown("nav-notifications", "panel-notifications");
 
 document.getElementById("nav-home").addEventListener("click", () => {
   showPhase("phase-listings");
