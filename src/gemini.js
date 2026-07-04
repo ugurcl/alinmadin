@@ -1,8 +1,10 @@
 import { SYSTEM_PROMPT } from "./config.js";
+import { nextKey, benchKey, keyCount } from "./keys.js";
 
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+const RETRYABLE = /429|401|403|quota|RESOURCE_EXHAUSTED|API_KEY_INVALID/i;
 
-export async function askInterviewer(history, isFinal) {
+async function callOnce(apiKey, history, isFinal) {
   const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
   const contents = history.map((m) => ({
     role: m.role === "user" ? "user" : "model",
@@ -16,7 +18,7 @@ export async function askInterviewer(history, isFinal) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-goog-api-key": process.env.GEMINI_API_KEY,
+      "x-goog-api-key": apiKey,
     },
     body: JSON.stringify({
       system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
@@ -41,4 +43,24 @@ export async function askInterviewer(history, isFinal) {
     throw new Error("unexpected reply shape");
   }
   return reply;
+}
+
+export async function askInterviewer(history, isFinal) {
+  let lastError;
+  const attempts = Math.max(keyCount(), 1);
+  for (let i = 0; i < attempts; i++) {
+    const key = nextKey();
+    if (!key) break;
+    try {
+      return await callOnce(key, history, isFinal);
+    } catch (err) {
+      lastError = err;
+      if (RETRYABLE.test(err.message)) {
+        benchKey(key);
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw lastError || new Error("no available gemini key");
 }

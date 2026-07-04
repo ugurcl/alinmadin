@@ -2,6 +2,7 @@ import { MAX_TURNS, MAX_HISTORY, MAX_MESSAGE_LENGTH } from "../config.js";
 import { isRateLimited } from "../rateLimit.js";
 import { askInterviewer } from "../gemini.js";
 import { mockInterviewer } from "../mock.js";
+import { hasKeys } from "../keys.js";
 
 function send(res, code, obj) {
   res.writeHead(code, { "Content-Type": "application/json; charset=utf-8" });
@@ -32,7 +33,7 @@ export function handleChat(req, res) {
       }));
       const userTurns = clean.filter((m) => m.role === "user").length;
       const isFinal = userTurns > MAX_TURNS;
-      const reply = process.env.GEMINI_API_KEY
+      const reply = hasKeys()
         ? await askInterviewer(clean, isFinal)
         : mockInterviewer(clean, isFinal, String(name).slice(0, 60));
       send(res, 200, reply);
