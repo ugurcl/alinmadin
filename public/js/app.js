@@ -133,11 +133,23 @@ function renderFeed(tab) {
 function activateTab(tab) {
   document.getElementById("tab-feed").classList.toggle("active", tab === "feed");
   document.getElementById("tab-jobs").classList.toggle("active", tab === "jobs");
+  document.getElementById("nav-home").classList.toggle("active", tab === "feed");
+  document.getElementById("nav-jobs").classList.toggle("active", tab === "jobs");
   renderFeed(tab);
 }
 
 document.getElementById("tab-feed").addEventListener("click", () => activateTab("feed"));
 document.getElementById("tab-jobs").addEventListener("click", () => activateTab("jobs"));
+
+document.getElementById("nav-home").addEventListener("click", () => {
+  showPhase("phase-listings");
+  activateTab("feed");
+});
+
+document.getElementById("nav-jobs").addEventListener("click", () => {
+  showPhase("phase-listings");
+  activateTab("jobs");
+});
 
 function openDetail(job) {
   state.listing = job;
