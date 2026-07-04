@@ -41,12 +41,12 @@ function renderJobList() {
     row.className = "job-row";
     row.style.animationDelay = `${i * 60}ms`;
     row.innerHTML = `
-      <div class="company-logo" style="background:${logoColor(job)}">${job.emoji}</div>
+      <div class="company-logo" style="background:${logoColor(job)}">${job.abbr}</div>
       <div class="job-info">
         <div class="job-title">${job.title}</div>
         <div class="job-company">${job.company}</div>
         <div class="job-meta">${job.meta}</div>
-        ${job.easy ? '<div class="easy-apply">⚡ Kolay Başvuru (Kolay Red)</div>' : ""}
+        ${job.easy ? '<div class="easy-apply">Kolay Başvuru (Kolay Red)</div>' : ""}
       </div>
       <div class="job-badge">${job.badge}</div>`;
     row.addEventListener("click", () => openDetail(job));
@@ -57,7 +57,7 @@ function renderJobList() {
 function openDetail(job) {
   state.listing = job;
   const logo = document.getElementById("detail-emoji");
-  logo.textContent = job.emoji;
+  logo.textContent = job.abbr;
   logo.style.background = logoColor(job);
   document.getElementById("detail-title").textContent = job.title;
   document.getElementById("detail-company").textContent = job.company;
@@ -156,14 +156,15 @@ async function sendToHr() {
 }
 
 function dropConfetti() {
-  const emojis = ["❌", "📄", "😢", "🚫", "📉"];
-  for (let i = 0; i < 28; i++) {
+  const colors = ["#d0342c", "#e8927c", "#8a9096", "#c9a227", "#5d7a9c"];
+  for (let i = 0; i < 32; i++) {
     const piece = document.createElement("span");
     piece.className = "confetti";
-    piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
     piece.style.left = `${Math.random() * 100}vw`;
     piece.style.animationDuration = `${2.2 + Math.random() * 2.5}s`;
     piece.style.animationDelay = `${Math.random() * 0.8}s`;
+    piece.style.transform = `rotate(${Math.random() * 180}deg)`;
     document.body.appendChild(piece);
     setTimeout(() => piece.remove(), 6000);
   }
@@ -222,7 +223,7 @@ document.getElementById("btn-download").addEventListener("click", downloadCertif
 
 document.getElementById("btn-tweet").addEventListener("click", () => {
   const text = encodeURIComponent(
-    `"${state.listing?.title}" pozisyonundan resmen reddedildim. 🎉 Sen de reddedilmek için: ${location.origin}`
+    `"${state.listing?.title}" pozisyonundan resmen reddedildim. Sen de reddedilmek için: ${location.origin}`
   );
   window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
 });

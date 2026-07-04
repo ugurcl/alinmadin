@@ -136,8 +136,25 @@ body {
   color: var(--text);
 }
 
-.nav-icon {
-  font-size: 1.2rem;
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.search .icon {
+  width: 15px;
+  height: 15px;
+  color: var(--muted);
+}
+
+.nav-item .icon {
+  margin-bottom: 2px;
 }
 
 .nav-count {
@@ -294,7 +311,10 @@ body {
   width: 52px;
   height: 52px;
   border-radius: 12px;
-  font-size: 1.55rem;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -451,7 +471,7 @@ li {
 .listing .company-logo {
   width: 60px;
   height: 60px;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
 }
 
 .company-name {
@@ -706,7 +726,9 @@ input:focus, textarea:focus, select:focus {
   position: fixed;
   top: -40px;
   z-index: 100;
-  font-size: 1.3rem;
+  width: 9px;
+  height: 14px;
+  border-radius: 2px;
   pointer-events: none;
   animation: fall linear both;
 }

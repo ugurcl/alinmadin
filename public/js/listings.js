@@ -1,7 +1,7 @@
 const LISTINGS = [
   {
     id: "fullstack",
-    emoji: "🏢",
+    abbr: "VG",
     title: "Junior Full-Stack Developer",
     company: "Vizyoner Global Teknoloji A.Ş.",
     meta: "Plaza 4. Kat · Hibrit (haftada 6 gün ofis)",
@@ -24,7 +24,7 @@ const LISTINGS = [
   },
   {
     id: "devops",
-    emoji: "🔥",
+    abbr: "VB",
     title: "Senior DevOps Mühendisi (Stajyer Bütçesiyle)",
     company: "Vizyoner Global — Bulut İştiraki",
     meta: "Uzaktan · 7/24 erişilebilir olmak kaydıyla",
@@ -46,7 +46,7 @@ const LISTINGS = [
   },
   {
     id: "ai",
-    emoji: "🤖",
+    abbr: "SS",
     title: "Yapay Zeka Uzmanı & Ofis Boyu",
     company: "SinerjiSoft (Vizyoner Global iştiraki)",
     meta: "Ofis içi · Yoğurtçu durağına 45 dk",
@@ -68,7 +68,7 @@ const LISTINGS = [
   },
   {
     id: "cto",
-    emoji: "👔",
+    abbr: "HA",
     title: "Stajyer CTO",
     company: "Halden Anlar Holding",
     meta: "Merkez Ofis · Ünvan hibrit, maaş uzaktan",
@@ -90,7 +90,7 @@ const LISTINGS = [
   },
   {
     id: "ninja",
-    emoji: "🥷",
+    abbr: "DT",
     title: "Full-Stack Ninja Rockstar Guru Developer",
     company: "Disruptif Teknoloji ve Vizyon A.Ş.",
     meta: "Garaj Ofis · Bean bag üzerinde çalışma",
@@ -112,7 +112,7 @@ const LISTINGS = [
   },
   {
     id: "guvenlik",
-    emoji: "🔓",
+    abbr: "GB",
     title: "Siber Güvenlik Uzmanı (ACİL)",
     company: "GüvenBank Dijital",
     meta: "Uzaktan · Şifremiz 123456, gelip değiştirin",
@@ -134,7 +134,7 @@ const LISTINGS = [
   },
   {
     id: "mobil",
-    emoji: "📱",
+    abbr: "AK",
     title: "Mobil Developer (Hepsi Birden)",
     company: "AppKardeşler Yazılım",
     meta: "Ofis içi · iOS + Android + Flutter + React Native",
@@ -156,7 +156,7 @@ const LISTINGS = [
   },
   {
     id: "veri",
-    emoji: "📊",
+    abbr: "BD",
     title: "Kıdemli Veri Bilimci",
     company: "BigData Anadolu",
     meta: "Hibrit · Verimiz büyük, bütçemiz küçük",
@@ -178,7 +178,7 @@ const LISTINGS = [
   },
   {
     id: "sosyal",
-    emoji: "📣",
+    abbr: "VG",
     title: "Sosyal Medya Uzmanı",
     company: "Vizyoner Global Teknoloji A.Ş.",
     meta: "Ofis içi · Patronun yeğeni ayrıldı, yeri boş",
@@ -200,7 +200,7 @@ const LISTINGS = [
   },
   {
     id: "it",
-    emoji: "🖨️",
+    abbr: "HA",
     title: "IT Sorumlusu (Yazıcıdan da Anlayan)",
     company: "Halden Anlar Holding",
     meta: "Ofis içi · Bodrum kat, pencere var (kapalı)",

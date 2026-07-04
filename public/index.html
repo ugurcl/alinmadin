@@ -17,14 +17,32 @@
     <div class="container topbar-inner">
       <div class="brand">
         <div class="brand-logo">red</div>
-        <div class="search"><span>🔍</span><input type="text" placeholder="İş ara... (bulamayacaksın)" disabled></div>
+        <div class="search">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" placeholder="İş ara... (bulamayacaksın)" disabled>
+        </div>
       </div>
       <nav class="nav">
-        <div class="nav-item active"><span class="nav-icon">🏠</span>Ana Sayfa</div>
-        <div class="nav-item"><span class="nav-icon">👥</span>Ağım<span class="nav-count">0</span></div>
-        <div class="nav-item"><span class="nav-icon">💼</span>İlanlar</div>
-        <div class="nav-item"><span class="nav-icon">💬</span>Mesajlar<span class="nav-count">1</span></div>
-        <div class="nav-item"><span class="nav-icon">🔔</span>Bildirimler<span class="nav-count red">846</span></div>
+        <div class="nav-item active">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>
+          Ana Sayfa
+        </div>
+        <div class="nav-item">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Ağım<span class="nav-count">0</span>
+        </div>
+        <div class="nav-item">
+          <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          İlanlar
+        </div>
+        <div class="nav-item">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Mesajlar<span class="nav-count">1</span>
+        </div>
+        <div class="nav-item">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Bildirimler<span class="nav-count red">846</span>
+        </div>
       </nav>
     </div>
   </header>
@@ -44,7 +62,7 @@
             <div class="profile-stat"><span>Reddedilme sayın</span><strong id="stat-rejections">0</strong></div>
           </div>
           <div class="card mini-card">
-            <p class="small"><strong>💬 Yeni mesaj (1)</strong></p>
+            <p class="small"><strong>Yeni mesaj (1)</strong></p>
             <p class="muted small">İK: "Maalesef olumsuz..."</p>
           </div>
         </aside>
@@ -93,7 +111,7 @@
             <ul id="detail-perks"></ul>
           </div>
           <div class="cert-actions">
-            <button id="btn-apply" class="btn btn-primary">⚡ Kolay Başvuru</button>
+            <button id="btn-apply" class="btn btn-primary">Kolay Başvuru</button>
             <button id="btn-back" class="btn btn-outline">Geri</button>
           </div>
           <p class="fineprint">Başvurunuz sıraya alınacaktır. Sıranın sonu görünmemektedir.</p>
@@ -157,7 +175,7 @@
           <div class="stamp">RED</div>
           <h1>Değerlendirme Sonucunuz</h1>
           <pre id="rejection-text" class="letter"></pre>
-          <p class="muted small">📊 Bu sonuçla birlikte işe alım oranımız %0,00 olarak güncellenmiştir. Sektör lideriyiz.</p>
+          <p class="muted small">Bu sonuçla birlikte işe alım oranımız %0,00 olarak güncellenmiştir. Sektör lideriyiz.</p>
           <div class="cert-actions">
             <canvas id="certificate" width="1080" height="1350" hidden></canvas>
             <button id="btn-download" class="btn btn-primary">Red Belgeni İndir</button>
