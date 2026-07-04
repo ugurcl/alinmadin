@@ -1,0 +1,60 @@
+const LISTINGS = [
+  {
+    id: "fullstack",
+    title: "Junior Full-Stack Developer",
+    meta: "Plaza 4. Kat · Hibrit (haftada 6 gün ofis)",
+    badge: "🔥 846 kişi başvurdu",
+    requirements: [
+      "En az 15 yıl deneyim (25 yaş altı adaylar tercih sebebidir)",
+      "React, Vue, Angular, Svelte, jQuery ve COBOL'a hakimiyet",
+      "AWS, GCP, Azure sertifikaları (üçü birden)",
+      "Esnek çalışma saatlerine uyum (saatler bize esner, size esnemez)",
+      "Takım oyuncusu, ama maçı tek başına kazanabilecek",
+      "Maaş beklentisi olmayan, vizyon odaklı",
+    ],
+    perks: [
+      "Yemek kartı (bazı aylar)",
+      "Sınırsız çay (poşet)",
+      "Dinamik startup kültürü (kaos)",
+      "Kariyer fırsatı (fırsatın tanımı tarafımızca yapılır)",
+    ],
+  },
+  {
+    id: "devops",
+    title: "Senior DevOps Mühendisi (Stajyer Bütçesiyle)",
+    meta: "Uzaktan · 7/24 erişilebilir olmak kaydıyla",
+    badge: "⚡ 1.203 kişi başvurdu",
+    requirements: [
+      "Kubernetes'i gözü kapalı, tercihen uyurken yönetebilen",
+      "Gece 03:00 alarmlarına 'heyecan verici' diyebilen",
+      "Telefonunu kapatmayı 10 yıldır unutan",
+      "Sunucu çökünce önce özür dileyip sonra düzelten",
+      "Cloud maliyetlerini azaltıp kendi maaşından feragat edebilen",
+    ],
+    perks: [
+      "Nöbet ücreti (manevi)",
+      "Yıllık izin (teoride)",
+      "Prod erişimi (sorumluluk sizde)",
+      "Esnek mesai (bitince biter)",
+    ],
+  },
+  {
+    id: "ai",
+    title: "Yapay Zeka Uzmanı & Ofis Boyu",
+    meta: "Ofis içi · Yoğurtçu durağına 45 dk",
+    badge: "🤖 2.914 kişi başvurdu",
+    requirements: [
+      "ChatGPT'ye soru yazabilen (ileri seviye)",
+      "Patronun 'yapay zeka bizi işsiz bırakır mı' sorusuna her hafta farklı cevap verebilen",
+      "Fotokopi makinesi ve kahve makinesine de bakabilen",
+      "LLM, RAG, AGI kısaltmalarını toplantıda art arda söyleyebilen",
+      "Deep learning bilen ama derin maaş beklemeyen",
+    ],
+    perks: [
+      "Ünvan: 'AI Lead' (kartvizitte)",
+      "GPU erişimi (komşu şirketten rica ile)",
+      "Konferans desteği (YouTube linki)",
+      "Geleceğin teknolojisiyle çalışma imkanı (Excel)",
+    ],
+  },
+];
