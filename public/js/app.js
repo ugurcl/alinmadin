@@ -205,9 +205,45 @@ document.getElementById("apply-form").addEventListener("submit", (e) => {
     },
   ];
   chatLog.innerHTML = "";
-  showPhase("phase-interview");
-  sendToHr();
+  showPhase("phase-queue");
+  runQueue(() => {
+    showPhase("phase-interview");
+    sendToHr();
+  });
 });
+
+function runQueue(done) {
+  const numberEl = document.getElementById("queue-number");
+  const statusEl = document.getElementById("queue-status");
+  const fillEl = document.getElementById("queue-fill");
+
+  function countdown(from, duration, onEnd) {
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const value = Math.max(1, Math.round(from - (from - 1) * eased));
+      numberEl.textContent = value;
+      fillEl.style.width = `${eased * 100}%`;
+      if (t < 1) requestAnimationFrame(tick);
+      else onEnd();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  statusEl.textContent = "Önünüzdeki aday sayısı";
+  countdown(846, 3200, () => {
+    statusEl.textContent = "Oturum zaman aşımına uğradı. Sıra yeniden alınıyor...";
+    numberEl.classList.add("queue-error");
+    setTimeout(() => {
+      numberEl.classList.remove("queue-error");
+      numberEl.textContent = "847";
+      fillEl.style.width = "0%";
+      statusEl.textContent = "Önünüzdeki aday sayısı (yeniden)";
+      setTimeout(() => countdown(847, 2200, done), 600);
+    }, 1400);
+  });
+}
 
 chatForm.addEventListener("submit", (e) => {
   e.preventDefault();

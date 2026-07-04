@@ -571,6 +571,46 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 3.5px rgba(10, 102, 194, 0.14);
 }
 
+.queue-card {
+  text-align: center;
+  padding: 44px 28px;
+}
+
+.queue-number {
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  margin: 18px 0 4px;
+  transition: color 0.3s ease;
+}
+
+.queue-number.queue-error {
+  color: var(--red);
+  animation: shake 0.4s ease;
+}
+
+.queue-status {
+  min-height: 22px;
+}
+
+.queue-bar {
+  height: 7px;
+  background: #eceae5;
+  border-radius: 4px;
+  margin-top: 22px;
+  overflow: hidden;
+}
+
+.queue-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #1273d4, var(--blue));
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
 .interview-head {
   display: flex;
   align-items: center;
