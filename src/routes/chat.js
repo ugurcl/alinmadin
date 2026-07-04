@@ -33,9 +33,18 @@ export function handleChat(req, res) {
       }));
       const userTurns = clean.filter((m) => m.role === "user").length;
       const isFinal = userTurns > MAX_TURNS;
-      const reply = hasKeys()
-        ? await askInterviewer(clean, isFinal)
-        : mockInterviewer(clean, isFinal, String(name).slice(0, 60));
+      const safeName = String(name).slice(0, 60);
+      let reply;
+      if (hasKeys()) {
+        try {
+          reply = await askInterviewer(clean, isFinal);
+        } catch (err) {
+          console.error(new Date().toISOString(), "gemini failed, falling back to mock:", err.message);
+          reply = mockInterviewer(clean, isFinal, safeName);
+        }
+      } else {
+        reply = mockInterviewer(clean, isFinal, safeName);
+      }
       send(res, 200, reply);
     } catch (err) {
       console.error(new Date().toISOString(), err.message);
