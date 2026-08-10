@@ -258,9 +258,24 @@ function renderCandidate() {
   document.getElementById("btn-next").hidden = true;
 }
 
+function recordGivenRejection(cand, reason) {
+  let given = [];
+  try {
+    given = JSON.parse(localStorage.getItem("redin_given")) || [];
+  } catch {}
+  given.push({
+    name: cand.real,
+    photo: cand.photo || "",
+    reason: `${employer.company} tarafından reddedildi (${reason.toLocaleLowerCase("tr")})`,
+    at: Date.now(),
+  });
+  localStorage.setItem("redin_given", JSON.stringify(given.slice(-40)));
+}
+
 function revealCandidate(reason) {
   const cand = employer.queue[employer.index];
   employer.rejected.push({ ...cand, reason });
+  recordGivenRejection(cand, reason);
   document.getElementById("decision-row").hidden = true;
   document.getElementById("reject-panel").hidden = true;
   const box = document.getElementById("reveal-box");

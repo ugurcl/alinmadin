@@ -130,6 +130,12 @@ function renderFeed(tab) {
   const stream = document.getElementById("feed-stream");
   const subtitle = document.getElementById("feed-subtitle");
   stream.innerHTML = "";
+  const heading = document.querySelector(".feed-head h2");
+  heading.textContent = tab === "apps" ? "Başvurularım" : "Senin için önerilenler";
+  if (tab === "apps") {
+    renderApplications();
+    return;
+  }
   if (tab === "jobs") {
     subtitle.textContent = "Profiline göre uygun olmadığın pozisyonları listeledik";
     const listCard = document.createElement("div");
@@ -145,6 +151,7 @@ function renderFeed(tab) {
 function activateTab(tab) {
   document.getElementById("tab-feed").classList.toggle("active", tab === "feed");
   document.getElementById("tab-jobs").classList.toggle("active", tab === "jobs");
+  document.getElementById("tab-apps").classList.toggle("active", tab === "apps");
   document.getElementById("nav-home").classList.toggle("active", tab === "feed");
   document.getElementById("nav-jobs").classList.toggle("active", tab === "jobs");
   renderFeed(tab);
@@ -152,6 +159,7 @@ function activateTab(tab) {
 
 document.getElementById("tab-feed").addEventListener("click", () => activateTab("feed"));
 document.getElementById("tab-jobs").addEventListener("click", () => activateTab("jobs"));
+document.getElementById("tab-apps").addEventListener("click", () => activateTab("apps"));
 
 function setupDropdown(navId, panelId) {
   const nav = document.getElementById(navId);
@@ -267,21 +275,34 @@ function shortName(full) {
   return `${parts[0]} ${parts[parts.length - 1][0].toLocaleUpperCase("tr")}.`;
 }
 
+function givenRejections() {
+  try {
+    return JSON.parse(localStorage.getItem("redin_given")) || [];
+  } catch {
+    return [];
+  }
+}
+
 function pushTicker(opts = {}) {
   const ticker = document.getElementById("ticker");
-  const legend = !opts.own && Math.random() < 0.3
+  const given = givenRejections();
+  const mine = !opts.own && given.length && Math.random() < 0.25
+    ? given[Math.floor(Math.random() * given.length)]
+    : null;
+  const legend = !opts.own && !mine && Math.random() < 0.3
     ? LEGEND_REJECTIONS[Math.floor(Math.random() * LEGEND_REJECTIONS.length)]
     : null;
-  const raw = opts.name || legend?.name || TICKER_NAMES[Math.floor(Math.random() * TICKER_NAMES.length)];
+  const source = mine || legend;
+  const raw = opts.name || source?.name || TICKER_NAMES[Math.floor(Math.random() * TICKER_NAMES.length)];
   const name = opts.own ? shortName(raw) : raw;
-  const reason = legend ? legend.reason : TICKER_REASONS[Math.floor(Math.random() * TICKER_REASONS.length)];
-  const initials = legend ? legend.initials : name.split(" ").map((p) => p[0]).join("");
+  const reason = source ? source.reason : TICKER_REASONS[Math.floor(Math.random() * TICKER_REASONS.length)];
+  const initials = source?.initials || name.split(" ").map((p) => p[0]).join("");
   const color = LOGO_COLORS[Math.floor(Math.random() * LOGO_COLORS.length)];
   const item = document.createElement("div");
   item.className = opts.own ? "ticker-item own" : "ticker-item";
   item.innerHTML = `
-    ${personAvatar(legend?.photo, esc(initials), "ticker-avatar", color)}
-    <div><strong>${esc(name)}</strong>${legend ? PARODY_TAG : ""} ${reason}<time>${opts.own ? "şu anda" : "az önce"}</time></div>`;
+    ${personAvatar(source?.photo, esc(initials), "ticker-avatar", color)}
+    <div><strong>${esc(name)}</strong>${source?.photo ? PARODY_TAG : ""}${mine ? '<span class="by-you">senin kararın</span>' : ""} ${esc(reason)}<time>${opts.own ? "şu anda" : "az önce"}</time></div>`;
   ticker.prepend(item);
   while (ticker.children.length > 5) {
     const removable = [...ticker.children].reverse().find((el) => !el.classList.contains("own"));
@@ -476,6 +497,7 @@ function finishInterview(letter) {
     )
     .join("");
   state.durationSeconds = state.startedAt ? (performance.now() - state.startedAt) / 1000 : 0;
+  if (state.appId) markRejected(state.appId, state.durationSeconds);
   resetAppealZone();
   playFakeOffer(() => {
     document.getElementById("rejection-text").textContent = letter;
@@ -510,6 +532,7 @@ document.getElementById("apply-form").addEventListener("submit", (e) => {
   state.startedAt = performance.now();
   state.shareUrl = "";
   localStorage.setItem("redin_name", state.name);
+  state.appId = recordApplication(state.position, state.listing?.company || "");
   const salary = document.getElementById("input-salary").value;
   const why = document.getElementById("input-why").value.trim();
   state.history = [

@@ -258,6 +258,7 @@
             <div class="tabs">
               <button id="tab-feed" class="tab active" type="button">Akış</button>
               <button id="tab-jobs" class="tab" type="button">İlanlar</button>
+              <button id="tab-apps" class="tab" type="button">Başvurularım</button>
             </div>
           </div>
           <div id="feed-stream"></div>
@@ -267,6 +268,12 @@
           <div class="card">
             <h3 class="ticker-title"><span class="live-dot"></span>Canlı Red Akışı</h3>
             <div id="ticker" class="ticker"></div>
+          </div>
+          <div class="card wrapped-cta">
+            <span class="wrapped-tag">YENİ</span>
+            <h3>Red Karnen hazır</h3>
+            <p class="muted small">Bu yılki performansını derledik. Performans kelimesi geniş yorumlanmıştır.</p>
+            <button id="btn-wrapped" class="btn btn-primary btn-sm" type="button">Karneyi Aç</button>
           </div>
           <div class="card employer-cta">
             <h3>İşveren misiniz?</h3>
@@ -486,6 +493,21 @@
       </div>
     </section>
 
+    <section id="phase-wrapped" class="phase">
+      <div class="narrow">
+        <div class="card wrapped-card">
+          <p class="wrapped-year"><span id="wrapped-year"></span> RED KARNEN</p>
+          <h1>Bu yıl nasıl geçti</h1>
+          <div id="wrapped-body"></div>
+          <div class="cert-actions">
+            <button id="btn-wrapped-share" class="btn btn-primary" type="button">Karneyi Paylaş</button>
+            <button id="btn-wrapped-back" class="btn btn-outline" type="button">Geri</button>
+          </div>
+          <p class="fineprint">Veriler yalnızca bu tarayıcıda saklanmaktadır. Bizde kopyası yoktur, olsaydı da bakmazdık.</p>
+        </div>
+      </div>
+    </section>
+
     <section id="phase-company" class="phase">
       <div class="narrow">
         <div class="card">
@@ -591,6 +613,8 @@
   <script src="/js/posts.js"></script>
   <script src="/js/certificate.js"></script>
   <script src="/js/app.js"></script>
+  <script src="/js/applications.js"></script>
+  <script src="/js/wrapped.js"></script>
   <script src="/js/employer.js"></script>
   <script src="/js/cv.js"></script>
   <script src="/js/profiles.js"></script>

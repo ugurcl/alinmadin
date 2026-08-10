@@ -21,8 +21,14 @@ export function serveStatic(rootDir, urlPath, res) {
   }
   fs.readFile(fullPath, (err, data) => {
     if (err) {
-      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
-      return res.end("404 — Bu sayfa da sizi reddetti.");
+      return fs.readFile(path.join(rootDir, "404.html"), (notFoundErr, page) => {
+        if (notFoundErr) {
+          res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+          return res.end("404 — Bu sayfa da sizi reddetti.");
+        }
+        res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
+        res.end(page);
+      });
     }
     const type = MIME[path.extname(fullPath)] || "application/octet-stream";
     res.writeHead(200, { "Content-Type": `${type}; charset=utf-8` });
