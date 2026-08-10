@@ -3,12 +3,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadEnv } from "./src/env.js";
 import { initKeys } from "./src/keys.js";
+import { initStats, getStats } from "./src/stats.js";
 import { handleChat } from "./src/routes/chat.js";
 import { serveStatic } from "./src/static.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 loadEnv(__dirname);
 const keyCount = initKeys();
+initStats(__dirname);
 
 const PORT = Number(process.env.PORT || 3000);
 const PUBLIC_DIR = path.join(__dirname, "public");
@@ -17,6 +19,10 @@ const server = http.createServer((req, res) => {
   const url = new URL(req.url, "http://localhost");
   if (req.method === "POST" && url.pathname === "/api/chat") {
     return handleChat(req, res);
+  }
+  if (req.method === "GET" && url.pathname === "/api/stats") {
+    res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+    return res.end(JSON.stringify(getStats()));
   }
   serveStatic(PUBLIC_DIR, url.pathname, res);
 });

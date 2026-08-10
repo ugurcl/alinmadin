@@ -4,7 +4,12 @@ import { nextKey, benchKey, keyCount } from "./keys.js";
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 const RETRYABLE = /429|401|403|quota|RESOURCE_EXHAUSTED|API_KEY_INVALID/i;
 
-function buildContents(history, isFinal) {
+const MARKERS = {
+  final: "SON_TUR: Mülakatı bitir ve red mektubunu yaz.",
+  appeal: "İTİRAZ: Aday red kararına itiraz etti. İtirazını reddet.",
+};
+
+function buildContents(history, mode) {
   const contents = [];
   for (const m of history) {
     const role = m.role === "user" ? "user" : "model";
@@ -15,18 +20,18 @@ function buildContents(history, isFinal) {
       contents.push({ role, parts: [{ text: m.text }] });
     }
   }
-  if (isFinal) {
+  const marker = MARKERS[mode];
+  if (marker) {
     const last = contents[contents.length - 1];
-    const marker = "SON_TUR: Mülakatı bitir ve red mektubunu yaz.";
     if (last && last.role === "user") last.parts[0].text += `\n${marker}`;
     else contents.push({ role: "user", parts: [{ text: marker }] });
   }
   return contents;
 }
 
-async function callOnce(apiKey, history, isFinal) {
+async function callOnce(apiKey, history, mode) {
   const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-  const contents = buildContents(history, isFinal);
+  const contents = buildContents(history, mode);
 
   const res = await fetch(`${BASE}/${model}:generateContent`, {
     method: "POST",
@@ -59,21 +64,21 @@ async function callOnce(apiKey, history, isFinal) {
   }
   const cleaned = text.replace(/^```(json)?\s*/i, "").replace(/```\s*$/, "");
   const reply = JSON.parse(cleaned);
-  if (reply.type !== "question" && reply.type !== "rejection") {
+  if (!["question", "rejection", "appeal"].includes(reply.type)) {
     throw new Error("unexpected reply shape");
   }
   reply.text = String(reply.text);
   return reply;
 }
 
-export async function askInterviewer(history, isFinal) {
+export async function askInterviewer(history, mode) {
   let lastError;
   const attempts = Math.max(keyCount(), 1);
   for (let i = 0; i < attempts; i++) {
     const key = nextKey();
     if (!key) break;
     try {
-      return await callOnce(key, history, isFinal);
+      return await callOnce(key, history, mode);
     } catch (err) {
       lastError = err;
       if (RETRYABLE.test(err.message)) {

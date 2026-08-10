@@ -80,9 +80,9 @@ function buildPostCard(post, index) {
   const color = LOGO_COLORS[index % LOGO_COLORS.length];
   card.innerHTML = `
     <div class="post-head">
-      <div class="post-avatar" style="background:${color}">${post.initials}</div>
+      ${personAvatar(post.photo, post.initials, "post-avatar", color)}
       <div class="post-author">
-        <strong>${post.author}</strong><span class="post-follow"> · Takip Et</span>
+        <strong>${post.author}</strong>${post.photo ? PARODY_TAG : ""}<span class="post-follow"> · Takip Et</span>
         <p class="muted small">${post.title}</p>
         <p class="muted post-time">${post.time}</p>
       </div>
@@ -188,7 +188,7 @@ function openDetail(job) {
   showPhase("phase-detail");
 }
 
-const TICKER_NAMES = ["Mehmet K.", "Ayşe T.", "Emre D.", "Zeynep A.", "Burak S.", "Elif Y.", "Can Ö.", "Selin M.", "Oğuz H.", "Merve B."];
+const TICKER_NAMES = ["Mehmet K.", "Ayşe T.", "Emre D.", "Zeynep A.", "Burak S.", "Elif Y.", "Can Ö.", "Selin M.", "Oğuz H.", "Merve B.", "Kaan İ.", "Deniz P.", "Sibel R.", "Tolga V.", "Ece N.", "Barış G.", "Nazlı U.", "Serdar F."];
 const TICKER_REASONS = [
   "fazla gülümsediği için reddedildi",
   "az gülümsediği için reddedildi",
@@ -200,21 +200,82 @@ const TICKER_REASONS = [
   "5 yıl sonra kendini müdür olarak gördüğü için reddedildi",
   "hobisi 'kitap okumak' olduğu için reddedildi (yaratıcılık eksikliği)",
   "el sıkışı fazla kendinden emin bulunduğu için reddedildi",
+  "mülakatta su istediği için reddedildi (talepkâr)",
+  "su istemediği için reddedildi (inisiyatif eksikliği)",
+  "CV'si tek sayfa olduğu için reddedildi",
+  "CV'si iki sayfa olduğu için reddedildi",
+  "zayıf yönünü 'mükemmeliyetçilik' olarak belirttiği için reddedildi",
+  "zayıf yönünü gerçekten söylediği için reddedildi",
+  "yıllık izin haklarını sorduğu için reddedildi",
+  "LinkedIn fotoğrafında kravat takmadığı için reddedildi",
+  "LinkedIn fotoğrafında kravat taktığı için reddedildi (fazla resmi)",
+  "mülakat linkine 2 dakika erken girdiği için reddedildi",
+  "'sizin için sorum var mı' sorusuna soru sorduğu için reddedildi",
+  "'sorum yok' dediği için reddedildi (ilgisiz)",
+  "önceki işinden iyi bahsettiği için reddedildi (bağlılık riski)",
+  "önceki işinden kötü bahsettiği için reddedildi (sadakatsiz)",
+  "kamerasının arkasında kitaplık olduğu için reddedildi (gösterişçi)",
+  "kamerasının arkasında duvar olduğu için reddedildi (derinliksiz)",
+  "adının söylenişini düzelttiği için reddedildi",
+  "mülakatta not aldığı için reddedildi (aklında tutamıyor)",
+  "hafta sonu çalışabileceğini söylediği için reddedildi (çaresiz görünüyor)",
+  "kendini üç kelimeyle tanımlarken dördüncü kelimeyi kullandığı için reddedildi",
+  "teşekkür maili attığı için reddedildi (fazla istekli)",
+  "teşekkür maili atmadığı için reddedildi (ilgisiz)",
 ];
 
-function pushTicker() {
+const ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ESCAPES[c]);
+
+const LEGEND_REJECTIONS = [
+  { name: "Guido van Rossum", photo: "guido-van-rossum", initials: "GvR", reason: "Kıdemli Python Geliştirici pozisyonundan reddedildi (Django deneyimi yok)" },
+  { name: "Brendan Eich", photo: "brendan-eich", initials: "BE", reason: "Frontend pozisyonundan reddedildi (gerçekçi olmayan süre tahmini)" },
+  { name: "James Gosling", photo: "james-gosling", initials: "JG", reason: "Java Developer pozisyonundan reddedildi (Spring Boot şartı karşılanmadı)" },
+  { name: "Bjarne Stroustrup", photo: "bjarne-stroustrup", initials: "BS", reason: "C++ pozisyonundan reddedildi (çoktan seçmeli testte şık tartıştı)" },
+  { name: "Rasmus Lerdorf", photo: "rasmus-lerdorf", initials: "RL", reason: "PHP pozisyonundan reddedildi (ölmekte olan teknoloji)" },
+  { name: "Yukihiro Matsumoto", photo: "yukihiro-matsumoto", initials: "YM", reason: "Ruby pozisyonundan reddedildi (mutluluk ölçülebilir bir KPI değil)" },
+  { name: "Linus Torvalds", photo: "linus-torvalds", initials: "LT", reason: "Git uzmanı pozisyonundan reddedildi (kod incelemede fazla doğrudan)" },
+  { name: "Ryan Dahl", photo: "ryan-dahl", initials: "RD", reason: "Backend pozisyonundan reddedildi (kendi işine olumsuz bakış)" },
+  { name: "Graydon Hoare", initials: "GH", reason: "Rust pozisyonundan reddedildi (sahiplik modeli ekipçe anlaşılamadı)" },
+  { name: "Larry Wall", photo: "larry-wall", initials: "LW", reason: "Perl pozisyonundan reddedildi (CV'si tek satırda yazılmıştı)" },
+  { name: "Chris Lattner", photo: "chris-lattner", initials: "CL", reason: "iOS pozisyonundan reddedildi (Swift bilgisi teoride kalmış)" },
+  { name: "Anders Hejlsberg", photo: "anders-hejlsberg", initials: "AH", reason: "TypeScript pozisyonundan reddedildi (C# tecrübesi fazla ağır)" },
+  { name: "Rob Pike", photo: "rob-pike", initials: "RP", reason: "Go pozisyonundan reddedildi (jenerik beklentisi netleştirilemedi)" },
+  { name: "José Valim", initials: "JV", reason: "Elixir pozisyonundan reddedildi (niş teknoloji, kariyer riski)" },
+  { name: "Martin Odersky", photo: "martin-odersky", initials: "MO", reason: "Scala pozisyonundan reddedildi (fazla fonksiyonel yaklaşım)" },
+  { name: "Rich Hickey", photo: "rich-hickey", initials: "RH", reason: "Clojure pozisyonundan reddedildi (parantez kullanımı aşırı bulundu)" },
+  { name: "Alan Kay", photo: "alan-kay", initials: "AK", reason: "OOP pozisyonundan reddedildi (nesne yönelimli programlamayı yanlış tanımladı)" },
+  { name: "Roberto Ierusalimschy", photo: "roberto-ierusalimschy", initials: "RI", reason: "Lua pozisyonundan reddedildi (dizinler 1'den başlıyor diye)" },
+];
+
+function shortName(full) {
+  const parts = full.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "Bir Aday";
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]} ${parts[parts.length - 1][0].toLocaleUpperCase("tr")}.`;
+}
+
+function pushTicker(opts = {}) {
   const ticker = document.getElementById("ticker");
-  const name = TICKER_NAMES[Math.floor(Math.random() * TICKER_NAMES.length)];
-  const reason = TICKER_REASONS[Math.floor(Math.random() * TICKER_REASONS.length)];
-  const initials = name.split(" ").map((p) => p[0]).join("");
+  const legend = !opts.own && Math.random() < 0.3
+    ? LEGEND_REJECTIONS[Math.floor(Math.random() * LEGEND_REJECTIONS.length)]
+    : null;
+  const raw = opts.name || legend?.name || TICKER_NAMES[Math.floor(Math.random() * TICKER_NAMES.length)];
+  const name = opts.own ? shortName(raw) : raw;
+  const reason = legend ? legend.reason : TICKER_REASONS[Math.floor(Math.random() * TICKER_REASONS.length)];
+  const initials = legend ? legend.initials : name.split(" ").map((p) => p[0]).join("");
   const color = LOGO_COLORS[Math.floor(Math.random() * LOGO_COLORS.length)];
   const item = document.createElement("div");
-  item.className = "ticker-item";
+  item.className = opts.own ? "ticker-item own" : "ticker-item";
   item.innerHTML = `
-    <div class="ticker-avatar" style="background:${color}">${initials}</div>
-    <div><strong>${name}</strong> ${reason}<time>az önce</time></div>`;
+    ${personAvatar(legend?.photo, esc(initials), "ticker-avatar", color)}
+    <div><strong>${esc(name)}</strong>${legend ? PARODY_TAG : ""} ${reason}<time>${opts.own ? "şu anda" : "az önce"}</time></div>`;
   ticker.prepend(item);
-  while (ticker.children.length > 5) ticker.lastChild.remove();
+  while (ticker.children.length > 5) {
+    const removable = [...ticker.children].reverse().find((el) => !el.classList.contains("own"));
+    if (!removable) break;
+    removable.remove();
+  }
 }
 
 function addMessage(role, text) {
@@ -224,6 +285,51 @@ function addMessage(role, text) {
   chatLog.appendChild(div);
   chatLog.scrollTop = chatLog.scrollHeight;
   return div;
+}
+
+function addSystem(text) {
+  const div = document.createElement("div");
+  div.className = "msg system";
+  div.textContent = text;
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+const SYSTEM_EVENTS = [
+  "[Buket ekranını paylaştı ve hemen geri aldı]",
+  "[Buket 14 saniye boyunca hiçbir şey yazmadı]",
+  "[Buket bir sekmeye geçti]",
+  "[Buket not alıyor]",
+  "[Buket birine bir şey fısıldadı]",
+  "[Buket CV'nizi yeniden açtı]",
+  "[Buket kısa bir kahkaha attı — mikrofonu kapalıydı]",
+  "[Buket takvimini kontrol etti]",
+];
+
+const usedEvents = new Set();
+
+function randomSystemEvent() {
+  const pool = SYSTEM_EVENTS.filter((e) => !usedEvents.has(e));
+  if (!pool.length) return null;
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  usedEvents.add(pick);
+  return pick;
+}
+
+const KEREM_SCRIPT = [
+  [1400, "[Teknik ekipten Kerem Bey görüşmeye katıldı]"],
+  [4200, "[Kerem Bey kamerasını açmadı]"],
+  [7600, "[Kerem Bey görüşmeden ayrıldı]"],
+];
+
+function runKeremCameo() {
+  for (const [delay, line] of KEREM_SCRIPT) {
+    setTimeout(() => {
+      if (document.getElementById("phase-interview").classList.contains("active")) {
+        addSystem(line);
+      }
+    }, delay);
+  }
 }
 
 function addTyping() {
@@ -241,8 +347,18 @@ function setBusy(busy) {
   if (!busy) chatInput.focus();
 }
 
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+function replyDelay() {
+  const lastUser = [...state.history].reverse().find((m) => m.role === "user");
+  const len = lastUser ? lastUser.text.length : 0;
+  return Math.max(400, Math.min(2600, 2600 - len * 6));
+}
+
 async function sendToHr() {
   setBusy(true);
+  const started = performance.now();
+  const target = replyDelay();
   const typing = addTyping();
   try {
     const res = await fetch("/api/chat", {
@@ -251,6 +367,7 @@ async function sendToHr() {
       body: JSON.stringify({ history: state.history, name: state.name }),
     });
     const data = await res.json();
+    await wait(Math.max(0, target - (performance.now() - started)));
     typing.remove();
     if (data.error) {
       addMessage("hr", data.error);
@@ -261,9 +378,15 @@ async function sendToHr() {
       finishInterview(data.text);
       return;
     }
+    const userTurns = state.history.filter((m) => m.role === "user").length;
+    if (userTurns > 1 && Math.random() < 0.5) {
+      const event = randomSystemEvent();
+      if (event) addSystem(event);
+    }
     state.history.push({ role: "model", text: data.text });
     addMessage("hr", data.text);
     setBusy(false);
+    if (userTurns === 2) runKeremCameo();
   } catch {
     typing.remove();
     addMessage("hr", "Bağlantı koptu. Bunu da olumsuz değerlendireceğiz.");
@@ -286,6 +409,47 @@ function dropConfetti() {
   }
 }
 
+function playFakeOffer(onDone) {
+  const card = document.querySelector(".rejection");
+  const box = document.getElementById("fake-offer");
+  const textEl = document.getElementById("fake-offer-text");
+  const titleEl = document.getElementById("fake-offer-title");
+  const line = `Sayın ${state.name || "Aday"}, değerlendirme sürecimiz olumlu sonuçlanmıştır. Sizi ekibimizde görmekten büyük mutluluk duyacağız.`;
+
+  titleEl.textContent = "Tebrikler!";
+  textEl.textContent = "";
+  box.hidden = false;
+  box.classList.remove("erasing");
+  card.classList.remove("slam", "shake");
+  card.classList.add("revealing");
+  showPhase("phase-rejection");
+
+  let i = 0;
+  const type = () => {
+    textEl.textContent = line.slice(0, ++i);
+    if (i < line.length) return setTimeout(type, 22);
+    setTimeout(erase, 1500);
+  };
+
+  const erase = () => {
+    box.classList.add("erasing");
+    titleEl.textContent = "Tebrikler";
+    const step = () => {
+      textEl.textContent = line.slice(0, --i);
+      if (i > 0) return setTimeout(step, 9);
+      titleEl.textContent = "";
+      setTimeout(() => {
+        box.hidden = true;
+        card.classList.remove("revealing");
+        onDone();
+      }, 450);
+    };
+    step();
+  };
+
+  setTimeout(type, 400);
+}
+
 function finishInterview(letter) {
   const before = earnedBadges(state.rejections).length;
   state.rejections += 1;
@@ -299,15 +463,16 @@ function finishInterview(letter) {
       (b) => `<div class="badge-banner">Yeni başarım kazandınız: <strong>${b.name}</strong> — ${b.desc}</div>`
     )
     .join("");
-  setTimeout(() => {
+  resetAppealZone();
+  playFakeOffer(() => {
     document.getElementById("rejection-text").textContent = letter;
     renderCertificate(state.name, state.position, letter, state.listing?.company);
     const card = document.querySelector(".rejection");
-    card.classList.remove("slam", "shake");
-    showPhase("phase-rejection");
     requestAnimationFrame(() => card.classList.add("slam", "shake"));
     dropConfetti();
-  }, 800);
+    refreshRealStats();
+    pushTicker({ name: state.name, own: true });
+  });
 }
 
 document.getElementById("btn-back").addEventListener("click", () => showPhase("phase-listings"));
@@ -371,11 +536,31 @@ function runQueue(done) {
   });
 }
 
+const chatHint = document.getElementById("chat-hint");
+
+const HINT_STEPS = [
+  [0, ""],
+  [40, "Ortalama ilgi süremiz 40 karakterdir."],
+  [90, "Bu cevap uzuyor. Buket ilk cümleyi okuyacaktır."],
+  [160, "Yazdıklarınızın bir kısmı okunmayacaktır."],
+  [260, "Bu noktadan sonrası kendi keyfiniz için."],
+  [380, "Buket sekme değiştirdi."],
+];
+
+chatInput.addEventListener("input", () => {
+  const len = chatInput.value.length;
+  const step = [...HINT_STEPS].reverse().find(([min]) => len > min);
+  chatHint.textContent = step ? step[1] : "";
+  chatHint.classList.toggle("warn", len > 160);
+});
+
 chatForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const text = chatInput.value.trim();
   if (!text || chatInput.disabled) return;
   chatInput.value = "";
+  chatHint.textContent = "";
+  chatHint.classList.remove("warn");
   state.history.push({ role: "user", text });
   addMessage("user", text);
   sendToHr();
@@ -388,6 +573,82 @@ document.getElementById("btn-tweet").addEventListener("click", () => {
     `"${state.listing?.title}" pozisyonundan resmen reddedildim. Sen de reddedilmek için: ${location.origin}`
   );
   window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
+});
+
+const appealBtn = document.getElementById("btn-appeal");
+const appealForm = document.getElementById("appeal-form");
+const appealInput = document.getElementById("appeal-input");
+const appealLog = document.getElementById("appeal-log");
+
+const APPEAL_CTA = [
+  "Bu karara itiraz etmek istiyorum",
+  "Yine de itiraz etmek istiyorum",
+  "Son bir kez itiraz etmek istiyorum",
+  "İtiraz etmeye devam etmek istiyorum",
+];
+
+function resetAppealZone() {
+  state.appeals = 0;
+  appealLog.innerHTML = "";
+  appealInput.value = "";
+  appealForm.hidden = true;
+  appealBtn.hidden = false;
+  appealBtn.textContent = APPEAL_CTA[0];
+}
+
+function addAppealEntry(kind, text, meta) {
+  const div = document.createElement("div");
+  div.className = `appeal-entry ${kind}`;
+  div.textContent = text;
+  if (meta) {
+    const span = document.createElement("span");
+    span.className = "appeal-meta";
+    span.textContent = meta;
+    div.appendChild(span);
+  }
+  appealLog.appendChild(div);
+  return div;
+}
+
+appealBtn.addEventListener("click", () => {
+  appealBtn.hidden = true;
+  appealForm.hidden = false;
+  appealInput.focus();
+});
+
+appealForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = appealInput.value.trim();
+  if (!text) return;
+  appealInput.value = "";
+  appealForm.hidden = true;
+  state.appeals = (state.appeals || 0) + 1;
+  addAppealEntry("mine", `İtirazınız: ${text}`, `İtiraz no: ${state.appeals} · Durum: alındı`);
+
+  const history = [
+    ...state.history,
+    { role: "model", text: document.getElementById("rejection-text").textContent },
+    { role: "user", text },
+  ];
+
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ history, name: state.name, mode: "appeal" }),
+    });
+    const data = await res.json();
+    addAppealEntry("verdict", data.text || data.error, `İtiraz no: ${state.appeals} · Durum: kapatıldı`);
+  } catch {
+    addAppealEntry("verdict", "İtirazınız gönderilemedi. Bu da bir cevaptır.", `İtiraz no: ${state.appeals} · Durum: kapatıldı`);
+  }
+
+  if (state.appeals < APPEAL_CTA.length) {
+    appealBtn.textContent = APPEAL_CTA[state.appeals];
+    appealBtn.hidden = false;
+  } else {
+    addAppealEntry("mine", "İtiraz hakkınız tükenmiştir.", "Yeni hak tanımlanmamıştır.");
+  }
 });
 
 document.getElementById("btn-retry").addEventListener("click", () => {
@@ -414,16 +675,78 @@ if (!sessionStorage.getItem("redin_cookies")) {
 document.querySelectorAll(".cookie-accept").forEach((btn) =>
   btn.addEventListener("click", () => {
     sessionStorage.setItem("redin_cookies", "1");
-    document.getElementById("cookie-text").textContent = "Tercihiniz kaydedildi. (Zaten tek tercihti.)";
+    document.getElementById("cookie-text").textContent = btn.dataset.reject
+      ? "Reddetme tercihiniz kabul olarak kaydedildi."
+      : "Tercihiniz kaydedildi. (Zaten tek tercihti.)";
     document.querySelector(".cookie-actions").remove();
     setTimeout(() => cookieBanner.classList.add("cookie-out"), 1600);
     setTimeout(() => cookieBanner.remove(), 2200);
   })
 );
 
+async function refreshRealStats() {
+  try {
+    const res = await fetch("/api/stats");
+    const data = await res.json();
+    document.getElementById("stat-real").textContent = data.rejections.toLocaleString("tr-TR");
+  } catch {}
+}
+
+const REAL_TITLE = document.title;
+let titleTimer;
+document.addEventListener("visibilitychange", () => {
+  clearTimeout(titleTimer);
+  if (document.hidden) {
+    document.title = "(1) Buket sizi bekliyor...";
+  } else {
+    document.title = "Geç kaldınız.";
+    titleTimer = setTimeout(() => (document.title = REAL_TITLE), 2200);
+  }
+});
+
+const notifNav = document.getElementById("nav-notifications");
+const notifCount = notifNav.querySelector(".nav-count");
+let notifSeen = false;
+notifNav.addEventListener("click", () => {
+  if (notifSeen) return;
+  notifSeen = true;
+  notifCount.textContent = "1";
+  const panel = document.getElementById("panel-notifications");
+  const item = document.createElement("div");
+  item.className = "dd-item";
+  item.innerHTML = `<span class="dd-dot"></span><div class="dd-body"><p>Bu bildirim size ait değil.</p><span class="dd-time">şimdi</span></div>`;
+  panel.insertBefore(item, panel.children[1]);
+});
+
+const completeBtn = document.getElementById("btn-complete");
+let completeStep = 0;
+completeBtn.addEventListener("click", () => {
+  completeStep += 1;
+  if (completeStep === 1) {
+    document.getElementById("completion-fill").style.width = "87%";
+    document.getElementById("completion-pct").textContent = "%87";
+    completeBtn.textContent = "Son %13 için biraz daha";
+    return;
+  }
+  completeBtn.textContent = "Profiliniz bu kadar tamamlanabilir.";
+  completeBtn.disabled = true;
+});
+
+const applyBtn = document.getElementById("btn-apply");
+let applyDodged = false;
+applyBtn.addEventListener("mouseenter", () => {
+  if (applyDodged) return;
+  applyDodged = true;
+  applyBtn.style.transition = "transform 0.18s ease";
+  applyBtn.style.transform = "translateX(72px)";
+  setTimeout(() => (applyBtn.style.transform = "none"), 520);
+});
+
 document.getElementById("stat-rejections").textContent = state.rejections;
 renderBadges();
+renderPhotoCredits();
 renderFeed("feed");
+refreshRealStats();
 pushTicker();
 pushTicker();
 pushTicker();

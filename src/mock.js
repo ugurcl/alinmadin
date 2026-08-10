@@ -7,8 +7,19 @@ const QUESTIONS = [
   "Son sorum: maaş beklentiniz nedir? Yanıtlamadan önce yemek kartı politikamızı okumanızı öneririm.",
 ];
 
-export function mockInterviewer(history, isFinal, name) {
-  if (isFinal) {
+const APPEALS = [
+  "İtirazınız alınmıştır. İtirazınız incelenmiştir. Kararımız korunmuştur. Bu yanıt otomatik olarak üretilmiştir.",
+  "İtirazınızdaki argümanlar, red gerekçemizi güçlendirmiştir. Karar değişmemiştir. Bu yanıt otomatik olarak üretilmiştir.",
+  "İtiraz hakkınızı kullandınız. Hakkınız burada bitmiştir. Kararımız kesindir. Bu yanıt otomatik olarak üretilmiştir.",
+  "İtirazınız ilgili birime iletilmiştir. İlgili birim yoktur. Kararımız korunmuştur. Bu yanıt otomatik olarak üretilmiştir.",
+];
+
+export function mockInterviewer(history, mode, name) {
+  if (mode === "appeal") {
+    const appeals = history.filter((m) => m.role === "user").length;
+    return { type: "appeal", text: APPEALS[appeals % APPEALS.length] };
+  }
+  if (mode === "final") {
     return {
       type: "rejection",
       text: `Sayın ${name || "Aday"},\n\n1.247 başvuru arasından titizlikle değerlendirildiniz. Mülakat sürecindeki samimi yanıtlarınız için teşekkür ederiz. Maalesef, ofis eşyası sorusuna verdiğiniz yanıt ekibimizin delgeç odaklı vizyonuyla örtüşmediğinden sürece sizinle devam edemiyoruz.\n\nCV'niz yetenek havuzumuzda saklanacaktır. (Havuzumuz yoktur.)\n\nSaygılarımızla,\n${HR_NAME} — Kıdemli İK İş Ortağı\n${COMPANY}`,

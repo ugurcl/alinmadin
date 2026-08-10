@@ -3,6 +3,7 @@ import { isRateLimited } from "../rateLimit.js";
 import { askInterviewer } from "../gemini.js";
 import { mockInterviewer } from "../mock.js";
 import { hasKeys } from "../keys.js";
+import { countRejection } from "../stats.js";
 
 function send(res, code, obj) {
   res.writeHead(code, { "Content-Type": "application/json; charset=utf-8" });
@@ -23,7 +24,7 @@ export function handleChat(req, res) {
 
   req.on("end", async () => {
     try {
-      const { history = [], name = "" } = JSON.parse(body);
+      const { history = [], name = "", mode = "" } = JSON.parse(body);
       if (!Array.isArray(history) || history.length > MAX_HISTORY + 4) {
         return send(res, 400, { error: "Geçersiz istek." });
       }
@@ -32,18 +33,23 @@ export function handleChat(req, res) {
         text: String(m.text || "").slice(0, MAX_MESSAGE_LENGTH),
       }));
       const userTurns = clean.filter((m) => m.role === "user").length;
-      const isFinal = userTurns > MAX_TURNS;
+      const turnMode = mode === "appeal" ? "appeal" : userTurns > MAX_TURNS ? "final" : "question";
       const safeName = String(name).slice(0, 60);
       let reply;
       if (hasKeys()) {
         try {
-          reply = await askInterviewer(clean, isFinal);
+          reply = await askInterviewer(clean, turnMode);
         } catch (err) {
           console.error(new Date().toISOString(), "gemini failed, falling back to mock:", err.message);
-          reply = mockInterviewer(clean, isFinal, safeName);
+          reply = mockInterviewer(clean, turnMode, safeName);
         }
       } else {
-        reply = mockInterviewer(clean, isFinal, safeName);
+        reply = mockInterviewer(clean, turnMode, safeName);
+      }
+      if (turnMode === "appeal") reply.type = "appeal";
+      if (turnMode === "final") {
+        reply.type = "rejection";
+        countRejection();
       }
       send(res, 200, reply);
     } catch (err) {
