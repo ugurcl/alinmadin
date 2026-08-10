@@ -4,7 +4,19 @@ const state = {
   listing: null,
   history: [],
   rejections: Number(localStorage.getItem("redin_rejections") || 0),
+  lastName: localStorage.getItem("redin_name") || "",
+  startedAt: 0,
+  durationSeconds: 0,
+  shareUrl: "",
 };
+
+function formatDuration(totalSeconds) {
+  const seconds = Math.max(1, Math.round(totalSeconds));
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  if (!mins) return `${secs} saniye`;
+  return `${mins} dakika ${secs} saniye`;
+}
 
 const BADGES = [
   { at: 1, name: "İlk Red", desc: "Herkes bir yerden başlar" },
@@ -463,12 +475,20 @@ function finishInterview(letter) {
       (b) => `<div class="badge-banner">Yeni başarım kazandınız: <strong>${b.name}</strong> — ${b.desc}</div>`
     )
     .join("");
+  state.durationSeconds = state.startedAt ? (performance.now() - state.startedAt) / 1000 : 0;
   resetAppealZone();
   playFakeOffer(() => {
     document.getElementById("rejection-text").textContent = letter;
+    document.getElementById("duration-note").textContent = state.durationSeconds
+      ? `Değerlendirme süreniz: ${formatDuration(state.durationSeconds)}. ` +
+        (state.durationSeconds > 180
+          ? "Ortalamamız 3 dakikadır, sizi bekletmiş olduk. Özür dileriz."
+          : "Ortalamamızın altında kaldınız. Bu bir iltifat değildir.")
+      : "";
     renderCertificate(state.name, state.position, letter, state.listing?.company);
     const card = document.querySelector(".rejection");
     requestAnimationFrame(() => card.classList.add("slam", "shake"));
+    setTimeout(() => play("thud"), 340);
     dropConfetti();
     refreshRealStats();
     pushTicker({ name: state.name, own: true });
@@ -487,6 +507,9 @@ document.getElementById("apply-form").addEventListener("submit", (e) => {
   e.preventDefault();
   state.name = document.getElementById("input-name").value.trim();
   state.position = document.getElementById("input-position").value.trim();
+  state.startedAt = performance.now();
+  state.shareUrl = "";
+  localStorage.setItem("redin_name", state.name);
   const salary = document.getElementById("input-salary").value;
   const why = document.getElementById("input-why").value.trim();
   state.history = [
@@ -570,7 +593,7 @@ document.getElementById("btn-download").addEventListener("click", downloadCertif
 
 document.getElementById("btn-tweet").addEventListener("click", () => {
   const text = encodeURIComponent(
-    `"${state.listing?.title}" pozisyonundan resmen reddedildim. Sen de reddedilmek için: ${location.origin}`
+    `"${state.listing?.title}" pozisyonundan resmen reddedildim. Red mektubum: ${state.shareUrl || location.origin}`
   );
   window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
 });
@@ -653,9 +676,13 @@ appealForm.addEventListener("submit", async (e) => {
 
 document.getElementById("btn-retry").addEventListener("click", () => {
   state.history = [];
+  state.shareUrl = "";
   chatLog.innerHTML = "";
   document.getElementById("apply-form").reset();
+  document.getElementById("share-note").textContent = "";
+  document.getElementById("btn-share").hidden = false;
   showPhase("phase-listings");
+  activateTab("feed");
 });
 
 document.getElementById("btn-premium").addEventListener("click", () => {

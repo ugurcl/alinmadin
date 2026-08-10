@@ -17,7 +17,112 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23c0392b'/><text x='50' y='72' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='Arial'>red</text></svg>">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="landing-open">
+  <div id="landing" class="landing">
+    <header class="landing-bar">
+      <div class="landing-inner">
+        <div class="brand-logo">red</div>
+        <button id="btn-landing-login" class="landing-login" type="button">Giriş Yap</button>
+      </div>
+    </header>
+
+    <section class="landing-hero">
+      <div class="landing-inner hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Türkiye'nin en hızlı red platformu</p>
+          <h1 class="hero-title">
+            <span class="hero-line-1">İş mi bulamıyorsun?</span>
+            <span class="hero-line-2">Sayemizde <em>bulamayacaksın.</em></span>
+          </h1>
+          <p class="hero-sub">Başvur, mülakata gir, kişiye özel bir gerekçeyle reddedil. Red belgen anında hazır.</p>
+          <div class="hero-actions">
+            <button id="btn-landing-start" class="landing-cta" type="button">Reddedilmeye başla</button>
+            <p class="hero-note">Ücretsiz. Kayıt yok. Umut yok.</p>
+          </div>
+        </div>
+        <div class="hero-mark">
+          <span id="hero-finger" class="hero-finger" role="img" aria-label="Sizi gösteren parmak">🫵</span>
+          <div class="hero-stamp">%100 red<br>garantisi</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="landing-stats">
+      <div class="landing-inner stat-row">
+        <div><strong>84.937</strong><span>başvuru</span></div>
+        <div><strong>0</strong><span>işe alım</span></div>
+        <div><strong>%100</strong><span>red oranı</span></div>
+        <div><strong>3 dk</strong><span>ortalama red süresi</span></div>
+      </div>
+    </div>
+
+    <section class="landing-section">
+      <div class="landing-inner">
+        <h2 class="section-title">Nasıl çalışır</h2>
+        <ol class="steps">
+          <li>
+            <span class="step-num">01</span>
+            <h3>Başvur</h3>
+            <p>İlanlarımızdan birini seç ve formu doldur. Doldurmasan da sonuç değişmez.</p>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <h3>Mülakata gir</h3>
+            <p>İK uzmanımız Buket seni değerlendirir. Sonuç baştan bellidir, süreç yine de işler.</p>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <h3>Reddedil</h3>
+            <p>Gerekçeli resmî red mektubun ve indirilebilir Red Belgen hazır.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="landing-section alt">
+      <div class="landing-inner">
+        <h2 class="section-title">Kullanıcılarımız ne diyor</h2>
+        <div class="quotes">
+          <figure>
+            <blockquote>340 başvuru yaptım, 340'ında reddedildim. Aradığım tutarlılık buydu.</blockquote>
+            <figcaption><strong>Melih Aday</strong><span>İş Arıyor · Açık Pozisyonlara Açığım</span></figcaption>
+          </figure>
+          <figure>
+            <blockquote>Diğer platformlarda haftalarca cevap bekliyordum. Burada üç dakikada reddedildim. Zamanım bana kaldı.</blockquote>
+            <figcaption><strong>Zeynep Kurumsal</strong><span>Kurumsal İletişim Müdürü</span></figcaption>
+          </figure>
+          <figure>
+            <blockquote>İşveren olarak da kullanıyorum. Kimseyi işe alamıyorum. Harika ürün.</blockquote>
+            <figcaption><strong>Ahmet Vizyoner</strong><span>CEO &amp; Kurucu</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section">
+      <div class="landing-inner">
+        <h2 class="section-title">Bize güvenen şirketler</h2>
+        <div class="logo-wall">
+          <span>Vizyoner Global</span>
+          <span>Halden Anlar Holding</span>
+          <span>SinerjiSoft</span>
+          <span>GüvenBank Dijital</span>
+          <span>AppKardeşler</span>
+          <span>Disruptif Teknoloji</span>
+        </div>
+        <p class="logo-note">ve reddetmek isteyen 12.000'den fazla şirket</p>
+      </div>
+    </section>
+
+    <section class="landing-final">
+      <div class="landing-inner">
+        <h2>Bugün reddedilmeye başla.</h2>
+        <button id="btn-landing-start-2" class="landing-cta" type="button">İlanlara git</button>
+        <p class="landing-fineprint">Redin bir mizah projesidir. Gerçek bir iş, gerçek bir ilan ve gerçek bir umut içermez.</p>
+      </div>
+    </section>
+  </div>
+
   <header class="topbar">
     <div class="container topbar-inner">
       <div class="brand">
@@ -91,6 +196,9 @@
             </div>
           </div>
         </div>
+        <button id="btn-sound" class="nav-sound" type="button" aria-pressed="false" title="Sesi aç">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="wave-1" d="M15.5 8.5a5 5 0 0 1 0 7"/><path class="wave-2" d="M18.5 5.5a9 9 0 0 1 0 13"/><path class="mute-x" d="m17 9 5 6M22 9l-5 6"/></svg>
+        </button>
         <div id="nav-notifications" class="nav-item">
           <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           Bildirimler<span class="nav-count red">846</span>
@@ -254,7 +362,7 @@
               <div id="detail-emoji" class="company-logo"></div>
               <div>
                 <h1 id="detail-title"></h1>
-                <p id="detail-company" class="company-name"></p>
+                <p id="detail-company" class="company-name company-link" role="button" tabindex="0" title="Şirket profilini görüntüle"></p>
                 <p id="detail-meta" class="muted small"></p>
               </div>
             </div>
@@ -280,6 +388,19 @@
         <div class="card">
           <h1>Başvuru Formu</h1>
           <p class="muted">Lütfen tüm alanları eksiksiz doldurun. Doldurmasanız da sonuç değişmeyecektir.</p>
+          <div id="cv-zone" class="cv-zone">
+            <p class="cv-head">CV'nizi yükleyin</p>
+            <p class="muted small">PDF, DOCX veya ODT. Sistemimiz CV'nizi otomatik olarak okur ve formu sizin için doldurur.</p>
+            <label class="cv-button">
+              <input type="file" id="input-cv" accept=".pdf,.doc,.docx,.odt,.txt">
+              <span>Dosya Seç</span>
+            </label>
+            <div id="cv-progress" class="cv-progress" hidden>
+              <p id="cv-status" class="small"></p>
+              <div class="cv-bar"><i id="cv-fill"></i></div>
+            </div>
+            <p id="cv-done" class="cv-done small" hidden></p>
+          </div>
           <form id="apply-form">
             <label>Adınız Soyadınız
               <input type="text" id="input-name" maxlength="60" required placeholder="Örn. Umutsuz Aday">
@@ -300,6 +421,33 @@
             <label>Neden bizimle çalışmak istiyorsunuz?
               <textarea id="input-why" maxlength="500" rows="4" required placeholder="Buraya yazacağınız hiçbir şey kararımızı etkilemeyecektir."></textarea>
             </label>
+            <div id="cv-extra" class="cv-extra" hidden>
+              <p class="cv-extra-head">CV'nizden okunan bilgiler <span class="cv-extra-note">(doğrulamanız gerekmektedir)</span></p>
+              <label>Doğum tarihi
+                <select id="input-birth" required>
+                  <option value="" disabled selected>Yıl seçiniz</option>
+                </select>
+              </label>
+              <label>Mezun olduğunuz okul
+                <input type="text" id="input-school" maxlength="80" required placeholder="CV'nizde yazıyor ama yine de giriniz">
+              </label>
+              <label>Toplam deneyim (yıl)
+                <input type="number" id="input-years" min="0" max="60" required placeholder="0">
+              </label>
+              <label>Önceki şirketiniz
+                <input type="text" id="input-prev" maxlength="80" required placeholder="Ayrılma sebebinizi de yazınız">
+              </label>
+              <label>Bildiğiniz teknolojiler
+                <input type="text" id="input-stack" maxlength="120" required placeholder="Virgülle ayırınız">
+              </label>
+              <label>Mevcut maaşınız
+                <input type="text" id="input-current-salary" maxlength="20" required placeholder="Net / brüt belirtiniz">
+                <span class="field-note">Bu bilgi teklif belirlenmesinde kullanılmayacaktır.</span>
+              </label>
+              <label>Referans kişi ve telefonu
+                <input type="text" id="input-reference" maxlength="80" required placeholder="Görüşme öncesi aranacaktır">
+              </label>
+            </div>
             <button type="submit" class="btn btn-primary">Başvuruyu Gönder</button>
           </form>
         </div>
@@ -321,7 +469,7 @@
     <section id="phase-interview" class="phase">
       <div class="narrow">
         <div class="card">
-          <div class="interview-head">
+          <div id="interview-buket" class="interview-head" role="button" tabindex="0" title="Profili görüntüle">
             <div class="avatar">İK</div>
             <div>
               <strong>Buket</strong>
@@ -338,6 +486,49 @@
       </div>
     </section>
 
+    <section id="phase-company" class="phase">
+      <div class="narrow">
+        <div class="card">
+          <h1 id="company-name"></h1>
+          <p id="company-industry" class="muted small"></p>
+          <div class="rating-head">
+            <div id="company-rating" class="rating-score"></div>
+            <div id="company-recommend" class="rating-side"></div>
+          </div>
+          <div id="company-breakdown" class="breakdown"></div>
+          <h2 class="reviews-title">Çalışan değerlendirmeleri</h2>
+          <div id="company-comments" class="reviews"></div>
+          <p class="fineprint">Değerlendirmeler doğrulanmamıştır. Doğrulama talebimiz şirket tarafından reddedilmiştir.</p>
+          <button class="btn btn-outline btn-profile-back" type="button">Geri</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="phase-person" class="phase">
+      <div class="narrow">
+        <div class="card">
+          <div class="person-head">
+            <div class="avatar avatar-lg">İK</div>
+            <div>
+              <h1 id="person-name"></h1>
+              <p id="person-title" class="company-name"></p>
+              <p id="person-meta" class="muted small"></p>
+            </div>
+          </div>
+          <button id="btn-person-connect" class="btn btn-primary btn-sm" type="button">Bağlantı Kur</button>
+          <h2 class="person-section">Hakkında</h2>
+          <p id="person-about" class="person-about"></p>
+          <h2 class="person-section">Deneyim</h2>
+          <ul id="person-experience" class="person-list"></ul>
+          <h2 class="person-section">Beceriler ve onaylar</h2>
+          <ul id="person-skills" class="person-skills"></ul>
+          <h2 class="person-section">Ödüller</h2>
+          <ul id="person-awards" class="person-awards"></ul>
+          <button class="btn btn-outline btn-profile-back" type="button">Geri</button>
+        </div>
+      </div>
+    </section>
+
     <section id="phase-rejection" class="phase">
       <div class="narrow">
         <div class="card rejection">
@@ -350,13 +541,16 @@
           <h1>Değerlendirme Sonucunuz</h1>
           <div id="badge-earned"></div>
           <pre id="rejection-text" class="letter"></pre>
+          <p id="duration-note" class="muted small"></p>
           <p class="muted small">Bu sonuçla birlikte işe alım oranımız %0,00 olarak güncellenmiştir. Sektör lideriyiz.</p>
           <div class="cert-actions">
             <canvas id="certificate" width="1080" height="1350" hidden></canvas>
             <button id="btn-download" class="btn btn-primary">Red Belgeni İndir</button>
+            <button id="btn-share" class="btn btn-outline">Linki Kopyala</button>
             <button id="btn-tweet" class="btn btn-outline">X'te Paylaş</button>
             <button id="btn-retry" class="btn btn-outline">Tekrar Reddedil</button>
           </div>
+          <p id="share-note" class="share-note small"></p>
           <div class="appeal-zone">
             <button id="btn-appeal" class="appeal-cta" type="button">Bu karara itiraz etmek istiyorum</button>
             <form id="appeal-form" class="appeal-form" hidden>
@@ -398,5 +592,10 @@
   <script src="/js/certificate.js"></script>
   <script src="/js/app.js"></script>
   <script src="/js/employer.js"></script>
+  <script src="/js/cv.js"></script>
+  <script src="/js/profiles.js"></script>
+  <script src="/js/sound.js"></script>
+  <script src="/js/share.js"></script>
+  <script src="/js/landing.js"></script>
 </body>
 </html>

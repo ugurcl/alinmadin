@@ -4,13 +4,16 @@ import { fileURLToPath } from "node:url";
 import { loadEnv } from "./src/env.js";
 import { initKeys } from "./src/keys.js";
 import { initStats, getStats } from "./src/stats.js";
+import { initShares } from "./src/shares.js";
 import { handleChat } from "./src/routes/chat.js";
+import { handleCreateShare, handleGetShare } from "./src/routes/share.js";
 import { serveStatic } from "./src/static.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 loadEnv(__dirname);
 const keyCount = initKeys();
 initStats(__dirname);
+initShares(__dirname);
 
 const PORT = Number(process.env.PORT || 3000);
 const PUBLIC_DIR = path.join(__dirname, "public");
@@ -23,6 +26,16 @@ const server = http.createServer((req, res) => {
   if (req.method === "GET" && url.pathname === "/api/stats") {
     res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
     return res.end(JSON.stringify(getStats()));
+  }
+  if (req.method === "POST" && url.pathname === "/api/share") {
+    return handleCreateShare(req, res);
+  }
+  const shareApi = url.pathname.match(/^\/api\/share\/([A-Za-z0-9]{1,12})$/);
+  if (req.method === "GET" && shareApi) {
+    return handleGetShare(res, shareApi[1]);
+  }
+  if (req.method === "GET" && /^\/r\/[A-Za-z0-9]{1,12}$/.test(url.pathname)) {
+    return serveStatic(PUBLIC_DIR, "/index.html", res);
   }
   serveStatic(PUBLIC_DIR, url.pathname, res);
 });
