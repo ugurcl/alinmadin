@@ -14,7 +14,19 @@ const APPEALS = [
   "İtirazınız ilgili birime iletilmiştir. İlgili birim yoktur. Kararımız korunmuştur. Bu yanıt otomatik olarak üretilmiştir.",
 ];
 
+const THERAPY = [
+  "Anlattıklarınızı okudum ve gerçekten haklısınız. İnsanın emek verip karşılığında sessizlik alması yorucu bir şey.\n\nAncak süreçlerimiz yoğunluk nedeniyle her adaya dönüş yapamamaktadır. Anlayışınız için teşekkür ederiz.",
+  "Bunu yaşadığınız için üzgünüm. Aylarca uğraşıp aynı cümleyi tekrar tekrar duymak kimsenin hak ettiği bir şey değil.\n\nBununla birlikte bu geri bildirim, standart geri bildirim politikamız gereği geri bildirim sayılmamaktadır.",
+  "Söyledikleriniz çok tanıdık ve yalnız değilsiniz. Bu sürecin sizi yıpratması son derece normal.\n\nAncak yıpranma düzeyiniz pozisyonun gerektirdiği dayanıklılık profiliyle örtüşmemektedir.",
+  "Sizi duyuyorum. Kendinizi kanıtlamak zorunda hissettiğiniz her görüşme, biraz daha yorgun çıkmanıza sebep oluyor olmalı.\n\nBununla birlikte kendinizi kanıtlama çabanız, henüz kanıtlanmamış olduğunuzu göstermektedir.",
+  "Bu gerçekten haksızlık ve öyle hissetmenizde şaşılacak bir şey yok. Emeğinizin görülmemesi can sıkıcı.\n\nAncak görünürlük adayın sorumluluğundadır. Konuyla ilgili ücretli bir eğitimimiz bulunmaktadır.",
+];
+
 export function mockInterviewer(history, mode, name) {
+  if (mode === "therapy") {
+    const turns = history.filter((m) => m.role === "user").length;
+    return { type: "therapy", text: THERAPY[(turns - 1 + THERAPY.length) % THERAPY.length] };
+  }
   if (mode === "appeal") {
     const appeals = history.filter((m) => m.role === "user").length;
     return { type: "appeal", text: APPEALS[appeals % APPEALS.length] };

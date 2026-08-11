@@ -33,7 +33,12 @@ export function handleChat(req, res) {
         text: String(m.text || "").slice(0, MAX_MESSAGE_LENGTH),
       }));
       const userTurns = clean.filter((m) => m.role === "user").length;
-      const turnMode = mode === "appeal" ? "appeal" : userTurns > MAX_TURNS ? "final" : "question";
+      const turnMode =
+        mode === "appeal" || mode === "therapy"
+          ? mode
+          : userTurns > MAX_TURNS
+            ? "final"
+            : "question";
       const safeName = String(name).slice(0, 60);
       let reply;
       if (hasKeys()) {
@@ -46,7 +51,7 @@ export function handleChat(req, res) {
       } else {
         reply = mockInterviewer(clean, turnMode, safeName);
       }
-      if (turnMode === "appeal") reply.type = "appeal";
+      if (turnMode === "appeal" || turnMode === "therapy") reply.type = turnMode;
       if (turnMode === "final") {
         reply.type = "rejection";
         countRejection();

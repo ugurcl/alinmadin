@@ -7,6 +7,7 @@ const RETRYABLE = /429|401|403|quota|RESOURCE_EXHAUSTED|API_KEY_INVALID/i;
 const MARKERS = {
   final: "SON_TUR: Mülakatı bitir ve red mektubunu yaz.",
   appeal: "İTİRAZ: Aday red kararına itiraz etti. İtirazını reddet.",
+  therapy: "TERAPİ: Kişi iş arama sürecindeki gerçek bir sıkıntısını anlattı. Önce anla, sonra kurumsal moda dön.",
 };
 
 function buildContents(history, mode) {
@@ -64,7 +65,7 @@ async function callOnce(apiKey, history, mode) {
   }
   const cleaned = text.replace(/^```(json)?\s*/i, "").replace(/```\s*$/, "");
   const reply = JSON.parse(cleaned);
-  if (!["question", "rejection", "appeal"].includes(reply.type)) {
+  if (!["question", "rejection", "appeal", "therapy"].includes(reply.type)) {
     throw new Error("unexpected reply shape");
   }
   reply.text = String(reply.text);

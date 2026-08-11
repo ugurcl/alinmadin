@@ -275,6 +275,23 @@
             <p class="muted small">Bu yılki performansını derledik. Performans kelimesi geniş yorumlanmıştır.</p>
             <button id="btn-wrapped" class="btn btn-primary btn-sm" type="button">Karneyi Aç</button>
           </div>
+          <div class="card wall-cta">
+            <span class="wall-tag">DUVAR</span>
+            <h3>Red Duvarı</h3>
+            <p class="muted small">Gerçek hayatta yediğin en saçma redi yaz. Aynısını yiyenler seni görsün.</p>
+            <button id="btn-open-wall" class="btn btn-primary btn-sm" type="button">Duvara Git</button>
+            <p id="wall-teaser" class="wall-teaser small"></p>
+          </div>
+          <div class="card wheel-cta">
+            <h3>Bahane Çarkı</h3>
+            <p class="muted small">Mülakata girecek vaktin yok mu? Çevir, redini 3 saniyede al.</p>
+            <button id="btn-open-wheel" class="btn btn-outline btn-sm" type="button">Çarkı Çevir</button>
+          </div>
+          <div class="card therapy-cta">
+            <h3>Buket'e İçini Dök</h3>
+            <p class="muted small">Bugün yediğin redi anlat. Buket seni dinleyecek. Sonrasını garanti etmiyoruz.</p>
+            <button id="btn-open-therapy" class="btn btn-outline btn-sm" type="button">Konuşmaya Başla</button>
+          </div>
           <div class="card employer-cta">
             <h3>İşveren misiniz?</h3>
             <p class="muted small">Ücretsiz ilan verin, başvuruları değerlendirin. Değerlendirme yönü tektir.</p>
@@ -551,6 +568,85 @@
       </div>
     </section>
 
+    <section id="phase-wall" class="phase">
+      <div class="narrow">
+        <div class="card wall-card">
+          <h1>Red Duvarı</h1>
+          <p class="muted">Burada uydurma yok. Herkes gerçek hayatta duyduğu en saçma red gerekçesini yazıyor. Yalnız olmadığınızı görmeniz için.</p>
+          <form id="wall-form" class="wall-form">
+            <label>Sana ne dediler?
+              <textarea id="wall-input" rows="3" maxlength="220" required placeholder="Örn. 3 tur mülakattan sonra pozisyonun iptal olduğunu söylediler."></textarea>
+            </label>
+            <div class="wall-form-row">
+              <input type="text" id="wall-role" maxlength="40" placeholder="Pozisyon (opsiyonel) — Örn. Junior Frontend">
+              <button type="submit" class="btn btn-primary btn-sm">Duvara As</button>
+            </div>
+            <p id="wall-count" class="wall-count small">0 / 220</p>
+            <p id="wall-error" class="wall-error small"></p>
+          </form>
+          <div class="wall-head">
+            <h2 id="wall-total" class="wall-total"></h2>
+            <div class="tabs">
+              <button id="wall-tab-new" class="tab active" type="button">En yeni</button>
+              <button id="wall-tab-top" class="tab" type="button">En çok "ben de"</button>
+            </div>
+          </div>
+          <div id="wall-list" class="wall-list"></div>
+          <button id="btn-wall-more" class="btn btn-outline btn-sm" type="button" hidden>Daha fazla acı göster</button>
+          <p class="fineprint">Yazılanlar kullanıcılara aittir, doğrulanmamıştır. Şirket ismi vermeyin; duvar isim değil, gerekçe topluyor.</p>
+          <button class="btn btn-outline btn-profile-back" type="button">Geri</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="phase-wheel" class="phase">
+      <div class="narrow">
+        <div class="card wheel-card">
+          <h1>Bahane Çarkı</h1>
+          <p class="muted">Mülakata girmeye vaktiniz yok. Anlıyoruz. Redinizi doğrudan alın.</p>
+          <div id="wheel-stage" class="wheel-stage">
+            <div id="wheel-slot" class="wheel-slot">
+              <span class="wheel-idle">Çevirmeye hazır</span>
+            </div>
+          </div>
+          <div class="cert-actions">
+            <button id="btn-spin" class="btn btn-primary" type="button">Çarkı Çevir</button>
+            <button id="btn-wheel-copy" class="btn btn-outline" type="button" hidden>Kopyala</button>
+            <button id="btn-wheel-tweet" class="btn btn-outline" type="button" hidden>X'te Paylaş</button>
+          </div>
+          <p id="wheel-note" class="wheel-note small"></p>
+          <p id="wheel-count" class="muted small"></p>
+          <button class="btn btn-outline btn-profile-back" type="button">Geri</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="phase-therapy" class="phase">
+      <div class="narrow">
+        <div class="card">
+          <div class="interview-head">
+            <div class="avatar">İK</div>
+            <div>
+              <strong>Buket</strong>
+              <p class="muted small">Kıdemli İK İş Ortağı · bugün dinleme modunda</p>
+            </div>
+            <span class="therapy-tag">DESTEK HATTI</span>
+          </div>
+          <p class="therapy-intro muted small">Bu bir destek hattı değildir. Buket sizi dinleyecek, anlayacak ve ardından işine geri dönecektir. Yaşadığınız gerçek bir şeyi anlatın.</p>
+          <div id="therapy-log" class="chat-log therapy-log"></div>
+          <form id="therapy-form" class="chat-form">
+            <input type="text" id="therapy-input" maxlength="500" placeholder="Bugün ne oldu?" autocomplete="off">
+            <button type="submit" class="btn btn-primary">Anlat</button>
+          </form>
+          <div class="cert-actions">
+            <button id="btn-therapy-wall" class="btn btn-outline btn-sm" type="button">Bunu Red Duvarı'na as</button>
+            <button class="btn btn-outline btn-sm btn-profile-back" type="button">Geri</button>
+          </div>
+          <p class="fineprint">Konuşmalarınız sunucularımızda saklanmaz. Saklansaydı da okunmazdı.</p>
+        </div>
+      </div>
+    </section>
+
     <section id="phase-rejection" class="phase">
       <div class="narrow">
         <div class="card rejection">
@@ -564,6 +660,7 @@
           <div id="badge-earned"></div>
           <pre id="rejection-text" class="letter"></pre>
           <p id="duration-note" class="muted small"></p>
+          <div id="rival-box" class="rival-box" hidden></div>
           <p class="muted small">Bu sonuçla birlikte işe alım oranımız %0,00 olarak güncellenmiştir. Sektör lideriyiz.</p>
           <div class="cert-actions">
             <canvas id="certificate" width="1080" height="1350" hidden></canvas>
@@ -619,6 +716,10 @@
   <script src="/js/cv.js"></script>
   <script src="/js/profiles.js"></script>
   <script src="/js/sound.js"></script>
+  <script src="/js/rival.js"></script>
+  <script src="/js/wheel.js"></script>
+  <script src="/js/wall.js"></script>
+  <script src="/js/therapy.js"></script>
   <script src="/js/share.js"></script>
   <script src="/js/landing.js"></script>
 </body>

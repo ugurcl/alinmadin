@@ -511,6 +511,7 @@ function finishInterview(letter) {
     const card = document.querySelector(".rejection");
     requestAnimationFrame(() => card.classList.add("slam", "shake"));
     setTimeout(() => play("thud"), 340);
+    setTimeout(renderRival, 1400);
     dropConfetti();
     refreshRealStats();
     pushTicker({ name: state.name, own: true });
@@ -704,6 +705,7 @@ document.getElementById("btn-retry").addEventListener("click", () => {
   document.getElementById("apply-form").reset();
   document.getElementById("share-note").textContent = "";
   document.getElementById("btn-share").hidden = false;
+  resetRival();
   showPhase("phase-listings");
   activateTab("feed");
 });

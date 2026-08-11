@@ -2597,3 +2597,403 @@ body:not(.landing-open) #landing {
     padding: 17px;
   }
 }
+
+.wall-cta,
+.wheel-cta,
+.therapy-cta {
+  position: relative;
+}
+
+.wall-cta h3,
+.wheel-cta h3,
+.therapy-cta h3 {
+  font-size: 1rem;
+}
+
+.wall-cta .btn,
+.wheel-cta .btn,
+.therapy-cta .btn {
+  margin-top: 12px;
+}
+
+.wall-tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--text);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.wall-teaser {
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+.wall-form {
+  margin-top: 18px;
+  padding: 16px;
+  background: #faf9f7;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.wall-form textarea {
+  resize: vertical;
+}
+
+.wall-form-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.wall-form-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.88rem;
+  background: #fff;
+}
+
+.wall-form-row .btn {
+  white-space: nowrap;
+}
+
+.wall-count {
+  margin-top: 8px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.wall-error {
+  margin-top: 6px;
+  color: var(--red);
+  min-height: 1.2em;
+}
+
+.wall-error.wall-ok {
+  color: #2f7d4f;
+}
+
+.wall-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.wall-total {
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.wall-head .tabs {
+  margin: 0;
+}
+
+.wall-list {
+  margin-top: 4px;
+}
+
+.wall-item {
+  padding: 14px 2px;
+  border-bottom: 1px solid var(--border);
+}
+
+.wall-item:last-child {
+  border-bottom: none;
+}
+
+.wall-fresh {
+  animation: wallIn 0.45s ease;
+}
+
+@keyframes wallIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.wall-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.wall-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.wall-role {
+  background: #eef1f6;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-weight: 600;
+}
+
+.wall-same {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.wall-same:hover:not(:disabled) {
+  border-color: var(--red);
+  background: #fdf3f2;
+}
+
+.wall-same-count {
+  font-weight: 700;
+  color: var(--red);
+}
+
+.wall-same.same-done {
+  background: #fdf3f2;
+  border-color: #f0c7c3;
+  cursor: default;
+}
+
+.wheel-stage {
+  margin: 22px 0 18px;
+}
+
+.wheel-slot {
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px 20px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  background: #faf9f7;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.wheel-slot.spinning {
+  border-color: #d8d5cf;
+}
+
+.wheel-slot.settled {
+  border-style: solid;
+  border-color: var(--red);
+  background: #fff;
+  animation: wheelSettle 0.4s ease;
+}
+
+@keyframes wheelSettle {
+  0% {
+    transform: scale(0.97);
+  }
+  60% {
+    transform: scale(1.012);
+  }
+}
+
+.wheel-idle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+.wheel-blur {
+  color: var(--muted);
+  font-size: 0.95rem;
+  filter: blur(0.6px);
+  opacity: 0.75;
+}
+
+.wheel-text {
+  font-size: 1.06rem;
+  line-height: 1.55;
+  font-weight: 600;
+}
+
+.wheel-sting {
+  margin-top: 14px;
+  font-size: 0.84rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.wheel-note {
+  margin-top: 10px;
+  color: var(--muted);
+  min-height: 1.2em;
+}
+
+.therapy-tag {
+  margin-left: auto;
+  align-self: flex-start;
+  background: #eef1f6;
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.therapy-intro {
+  margin: 14px 0 4px;
+  padding: 10px 13px;
+  background: #faf9f7;
+  border-left: 3px solid var(--border);
+  border-radius: 0 8px 8px 0;
+}
+
+.therapy-log {
+  min-height: 220px;
+}
+
+.therapy-log .msg.hr {
+  white-space: pre-line;
+}
+
+.rival-box {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #faf9f7;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.rival-box.rival-in {
+  opacity: 1;
+  transform: none;
+}
+
+.rival-head {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.rival-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr 1.3fr;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  align-items: center;
+}
+
+.rival-row:last-child {
+  border-bottom: none;
+}
+
+.rival-names {
+  padding-top: 8px;
+  padding-bottom: 12px;
+}
+
+.rival-label {
+  color: var(--muted);
+  font-size: 0.79rem;
+}
+
+.rival-mine {
+  color: var(--text);
+}
+
+.rival-theirs {
+  color: var(--text);
+}
+
+.rival-winner {
+  position: relative;
+}
+
+.rival-winner::after {
+  content: "SEÇİLDİ";
+  position: absolute;
+  top: -9px;
+  left: 0;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #2f7d4f;
+}
+
+.rival-result {
+  border-top: 2px solid var(--border);
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.rival-no {
+  color: var(--red);
+}
+
+.rival-yes {
+  color: #2f7d4f;
+}
+
+.rival-reason {
+  margin-top: 14px;
+  font-size: 0.88rem;
+  padding: 10px 13px;
+  background: #fff;
+  border-left: 3px solid var(--red);
+  border-radius: 0 8px 8px 0;
+}
+
+.rival-foot {
+  margin-top: 10px;
+}
+
+@media (max-width: 620px) {
+  .wall-form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wall-same {
+    margin-left: 0;
+  }
+  .rival-row {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 4px;
+  }
+  .rival-label {
+    grid-column: 1 / -1;
+    font-weight: 600;
+  }
+  .rival-winner::after {
+    top: -10px;
+  }
+}

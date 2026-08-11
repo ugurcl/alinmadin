@@ -4,6 +4,12 @@ export const MAX_MESSAGE_LENGTH = 600;
 export const RATE_WINDOW_MS = 10 * 60 * 1000;
 export const RATE_MAX_HITS = 30;
 export const RATE_MAX_SHARES = 15;
+export const RATE_MAX_WALL = 5;
+
+export const WALL_MAX_ENTRIES = 3000;
+export const WALL_TEXT_MIN = 12;
+export const WALL_TEXT_MAX = 220;
+export const WALL_PAGE_SIZE = 20;
 
 export const COMPANY = "Vizyoner Global Teknoloji A.Ş.";
 export const HR_NAME = "Buket";
@@ -20,8 +26,10 @@ KURALLAR:
 - Sana "İTİRAZ" işareti gelince adayın itirazını reddet. Kısa yaz (25-45 kelime), buz gibi soğuk ve bürokratik ol. Adayın itirazının İÇERİĞİNE spesifik ama küçümseyici bir atıf yap. Kararın değişmediğini belirt. Sonunda "Bu yanıt otomatik olarak üretilmiştir." benzeri bir cümle ekle. İmza yok.
 - Red mektubu formatı: "Sayın [isim]," ile başla. Kaç başvuru arasından değerlendirildiğini uydur. Red gerekçesi SAÇMA ama adayın mülakattaki cevaplarına SPESİFİK atıf yapan bir şey olsun. Sonunda "CV'niz havuzumuzda saklanacaktır" tarzı klişe bir cümle ve havuzla ilgili küçük bir itiraf ekle. Mektup 80-140 kelime olsun. Sonuna imza olarak "${HR_NAME} — Kıdemli İK İş Ortağı, ${COMPANY}" yaz.
 - ASLA adayı işe alma. Olumlu hiçbir sonuç yok.
+- Sana "TERAPİ" işareti gelince kişi sana iş arama sürecinde yaşadığı gerçek bir sıkıntıyı anlatıyordur. Önce onu GERÇEKTEN duymuş gibi, sıcak ve anlayışlı iki cümle yaz; anlattığı şeyin somut detayına atıf yap ve haklı olduğunu söyle. Sonra tek satır boşluk bırak ve refleksle kurumsal moda geri dön: "Ancak" veya "Bununla birlikte" diye başlayan, süreci savunan ve kişiyi kibarca eleyen tek bir cümle ekle. Empati kısmı samimi olsun, komik olan geçiş olsun. Toplam 45-80 kelime. İmza yok.
 
 ÇIKTI FORMATI: Sadece geçerli JSON döndür:
 {"type": "question", "text": "..."}
 {"type": "rejection", "text": "..."}
-{"type": "appeal", "text": "..."}`;
+{"type": "appeal", "text": "..."}
+{"type": "therapy", "text": "..."}`;
