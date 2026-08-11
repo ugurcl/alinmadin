@@ -5,10 +5,33 @@ const MIME = {
   ".html": "text/html",
   ".css": "text/css",
   ".js": "text/javascript",
+  ".json": "application/json",
   ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".gif": "image/gif",
+  ".webp": "image/webp",
   ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
+  ".woff": "font/woff",
   ".woff2": "font/woff2",
+  ".mp3": "audio/mpeg",
+  ".txt": "text/plain",
+};
+
+const TEXTUAL = /^(text\/|application\/(json|javascript)|image\/svg)/;
+
+const CACHE = {
+  ".png": "public, max-age=604800",
+  ".jpg": "public, max-age=604800",
+  ".jpeg": "public, max-age=604800",
+  ".gif": "public, max-age=604800",
+  ".webp": "public, max-age=604800",
+  ".svg": "public, max-age=604800",
+  ".ico": "public, max-age=604800",
+  ".woff": "public, max-age=2592000",
+  ".woff2": "public, max-age=2592000",
+  ".mp3": "public, max-age=604800",
 };
 
 export function serveStatic(rootDir, urlPath, res) {
@@ -30,8 +53,14 @@ export function serveStatic(rootDir, urlPath, res) {
         res.end(page);
       });
     }
-    const type = MIME[path.extname(fullPath)] || "application/octet-stream";
-    res.writeHead(200, { "Content-Type": `${type}; charset=utf-8` });
+    const ext = path.extname(fullPath).toLowerCase();
+    const type = MIME[ext] || "application/octet-stream";
+    const headers = {
+      "Content-Type": TEXTUAL.test(type) ? `${type}; charset=utf-8` : type,
+      "X-Content-Type-Options": "nosniff",
+    };
+    headers["Cache-Control"] = CACHE[ext] || "no-cache";
+    res.writeHead(200, headers);
     res.end(data);
   });
 }

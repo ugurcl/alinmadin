@@ -3,6 +3,7 @@ export const MAX_HISTORY = 12;
 export const MAX_MESSAGE_LENGTH = 600;
 export const RATE_WINDOW_MS = 10 * 60 * 1000;
 export const RATE_MAX_HITS = 30;
+export const RATE_MAX_SHARES = 15;
 
 export const COMPANY = "Vizyoner Global Teknoloji A.Ş.";
 export const HR_NAME = "Buket";

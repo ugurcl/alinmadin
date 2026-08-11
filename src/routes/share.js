@@ -1,4 +1,5 @@
 import { isRateLimited } from "../rateLimit.js";
+import { RATE_MAX_SHARES } from "../config.js";
 import { createShare, getShare } from "../shares.js";
 
 function send(res, code, obj) {
@@ -8,7 +9,7 @@ function send(res, code, obj) {
 
 export function handleCreateShare(req, res) {
   const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress;
-  if (isRateLimited(ip)) {
+  if (isRateLimited(ip, "share", RATE_MAX_SHARES)) {
     return send(res, 429, { error: "Çok fazla paylaşım. İK departmanımız yoruldu." });
   }
   let body = "";

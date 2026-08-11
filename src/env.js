@@ -5,8 +5,10 @@ export function loadEnv(dir) {
   try {
     const raw = fs.readFileSync(path.join(dir, ".env"), "utf8");
     for (const line of raw.split("\n")) {
-      const m = line.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);
-      if (m && m[2] && !process.env[m[1]]) process.env[m[1]] = m[2];
+      const m = line.match(/^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
+      if (!m) continue;
+      const value = m[2].replace(/^(['"])(.*)\1$/, "$2");
+      if (value && !process.env[m[1]]) process.env[m[1]] = value;
     }
   } catch {}
 }

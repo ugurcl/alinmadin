@@ -12,7 +12,7 @@ function send(res, code, obj) {
 
 export function handleChat(req, res) {
   const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress;
-  if (isRateLimited(ip)) {
+  if (isRateLimited(ip, "chat")) {
     return send(res, 429, { error: "Sakin olun, İK departmanımız da yorulur. Birazdan tekrar deneyin." });
   }
 
