@@ -15,6 +15,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://redin.shipetch.com/og.png">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23c0392b'/><text x='50' y='72' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='Arial'>red</text></svg>">
+  <meta name="theme-color" content="#0A0A0B">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="landing-open">
@@ -25,13 +26,6 @@
         <button id="btn-landing-login" class="landing-login" type="button">Giriş Yap</button>
       </div>
     </header>
-
-    <aside class="landing-soon" aria-label="Duyuru">
-      <div class="landing-inner soon-row">
-        <span class="soon-tag">Yakında</span>
-        <p><strong>Redin mobil uygulaması çok yakında sizlerle.</strong> Reddedilmek artık cebinizde. Bildirim gelecek, iyi haber gelmeyecek.</p>
-      </div>
-    </aside>
 
     <section class="landing-hero">
       <div class="landing-inner hero-grid">
@@ -729,5 +723,17 @@
   <script src="/js/therapy.js"></script>
   <script src="/js/share.js"></script>
   <script src="/js/landing.js"></script>
+  <div id="soon" class="soon-veil" role="dialog" aria-modal="true" aria-labelledby="soon-title" hidden>
+    <div class="soon-card">
+      <div class="soon-label">Duyuru</div>
+      <h2 id="soon-title">Mobil uygulama çok yakında.</h2>
+      <p>Redin mobil uygulaması çok yakında sizlerle. Reddedilmek artık cebinizde; bildirim gelecek, iyi haber gelmeyecek.</p>
+      <div class="soon-rule"></div>
+      <div class="soon-label">Durum</div>
+      <div class="soon-state">Mağaza incelemesi bekleniyor. Süresi bildirilmemektedir.</div>
+      <button id="soon-ok" class="soon-ok" type="button">Anlaşıldı</button>
+    </div>
+  </div>
+  <script src="/js/soon.js"></script>
 </body>
 </html>
