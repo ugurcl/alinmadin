@@ -3086,6 +3086,9 @@ body:not(.landing-open) #landing {
 }
 
 .soon-ok {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 52px;
   padding: 0 20px;
   border: none;
@@ -3095,6 +3098,7 @@ body:not(.landing-open) #landing {
   font: inherit;
   font-size: 1rem;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -3102,6 +3106,22 @@ body:not(.landing-open) #landing {
   filter: brightness(1.06);
 }
 
+.soon-later {
+  min-height: 44px;
+  margin-top: -8px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.94rem;
+  cursor: pointer;
+}
+
+.soon-later:hover {
+  color: var(--text);
+}
+
+.soon-later:focus-visible,
 .soon-ok:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 3px;

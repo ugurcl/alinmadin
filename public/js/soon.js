@@ -1,8 +1,9 @@
 (function () {
-  var KEY = "redin_soon_seen";
+  var KEY = "redin_live_seen";
   var veil = document.getElementById("soon");
   var ok = document.getElementById("soon-ok");
-  if (!veil || !ok) return;
+  var go = document.getElementById("soon-go");
+  if (!veil || !ok || !go) return;
 
   try {
     if (localStorage.getItem(KEY) === "1") return;
@@ -22,9 +23,10 @@
 
   veil.hidden = false;
   ok.addEventListener("click", close);
+  go.addEventListener("click", close);
   veil.addEventListener("click", function (event) {
     if (event.target === veil) close();
   });
   document.addEventListener("keydown", onKey);
-  ok.focus();
+  go.focus();
 })();
