@@ -172,7 +172,7 @@
                 <p>Merhaba! Başvurunuz olumlu sonuçlan— pardon, bu mesaj yanlış adaya gitti. Dikkate almayınız. İyi günler dileriz.</p>
                 <span class="dd-seen">
                   <svg class="icon" viewBox="0 0 24 24"><path d="M2 12l5 5L18 6"/><path d="M8 12l5 5L24 6"/></svg>
-                  Görüldü (umursanmadı)
+                  Görüldü · Cevap planlanmamıştır
                 </span>
               </div>
             </div>
@@ -221,14 +221,14 @@
             <div class="dropdown-head">Bildirimler</div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>İlan sahibi profilinize baktı ve çıktı.</p><span class="dd-time">2 sn</span></div></div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Başvurunuz görüntülendi. (2 saniye boyunca)</p><span class="dd-time">5 dk</span></div></div>
-            <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Bir İK uzmanı CV'nizi yazdırıp uçak yaptı.</p><span class="dd-time">1 sa</span></div></div>
+            <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Bir İK uzmanı CV'nizi yazdırdı. Arkasına toplantı notu aldı.</p><span class="dd-time">1 sa</span></div></div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Profiliniz bu hafta 0 aramada görüntülendi. Görünürlüğünüz sektör ortalamasıyla aynı.</p><span class="dd-time">3 sa</span></div></div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Buket K. gönderinizi beğenmedi. (Özellikle açıp beğenmedi.)</p><span class="dd-time">1 g</span></div></div>
-            <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Başvurduğunuz ilan kaldırıldı. Pozisyon içeriden dolduruldu. İçerisi de sizsiniz aslında, sadece haberiniz yok.</p><span class="dd-time">1 g</span></div></div>
+            <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Başvurduğunuz ilan kaldırıldı. Pozisyon içeriden dolduruldu. İlan yarın yeniden yayınlanacak.</p><span class="dd-time">1 g</span></div></div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Ahmet Vizyoner bağlantı isteğinizi 14 aydır beklemede tutuyor.</p><span class="dd-time">2 g</span></div></div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Tebrikler! Profiliniz bu ay 0 işveren tarafından kaydedildi. Geçen aya göre %0 artış.</p><span class="dd-time">2 g</span></div></div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>"Junior Full-Stack Developer" ilanına 846 kişi başvurdu. Siz 847. sıradasınız. Liste 5 kişide kesiliyor.</p><span class="dd-time">3 g</span></div></div>
-            <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Bir işveren CV'nizi indirdi. 4 saniye sonra çöp kutusuna taşıdı. Çöp kutusu 30 gün saklanır, umut kaybolmasın.</p><span class="dd-time">4 g</span></div></div>
+            <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Bir işveren CV'nizi indirdi. 4 saniye sonra sildi. İndirilme sayınız 1 oldu, tebrikler.</p><span class="dd-time">4 g</span></div></div>
             <div class="dd-item"><span class="dd-dot"></span><div class="dd-body"><p>Yetkinliklerinizi doğrulayan kimse olmadı. Kendinizi doğrulamak ister misiniz?</p><span class="dd-time">5 g</span></div></div>
             <div class="dd-item"><div class="dd-body dd-more"><p>835 diğer bildirim (hepsi olumsuz)</p></div></div>
           </div>
@@ -532,9 +532,11 @@
           <h1>Bu yıl nasıl geçti</h1>
           <div id="wrapped-body"></div>
           <div class="cert-actions">
-            <button id="btn-wrapped-share" class="btn btn-primary" type="button">Karneyi Paylaş</button>
+            <button id="btn-wrapped-linkedin" class="btn btn-primary" type="button">LinkedIn'de Paylaş</button>
+            <button id="btn-wrapped-share" class="btn btn-outline" type="button">X'te Paylaş</button>
             <button id="btn-wrapped-back" class="btn btn-outline" type="button">Geri</button>
           </div>
+          <p id="wrapped-note" class="share-note small"></p>
           <p class="fineprint">Veriler yalnızca bu tarayıcıda saklanmaktadır. Bizde kopyası yoktur, olsaydı da bakmazdık.</p>
         </div>
       </div>
@@ -627,6 +629,7 @@
           <div class="cert-actions">
             <button id="btn-spin" class="btn btn-primary" type="button">Çarkı Çevir</button>
             <button id="btn-wheel-copy" class="btn btn-outline" type="button" hidden>Kopyala</button>
+            <button id="btn-wheel-linkedin" class="btn btn-outline" type="button" hidden>LinkedIn'de Paylaş</button>
             <button id="btn-wheel-tweet" class="btn btn-outline" type="button" hidden>X'te Paylaş</button>
           </div>
           <p id="wheel-note" class="wheel-note small"></p>
@@ -681,6 +684,7 @@
             <canvas id="certificate" width="1080" height="1350" hidden></canvas>
             <button id="btn-download" class="btn btn-primary">Red Belgeni İndir</button>
             <button id="btn-share" class="btn btn-outline">Linki Kopyala</button>
+            <button id="btn-linkedin" class="btn btn-outline">LinkedIn'de Paylaş</button>
             <button id="btn-tweet" class="btn btn-outline">X'te Paylaş</button>
             <button id="btn-retry" class="btn btn-outline">Tekrar Reddedil</button>
           </div>

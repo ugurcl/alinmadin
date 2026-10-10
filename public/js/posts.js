@@ -113,7 +113,7 @@ const POSTS = [
     initials: "GvR",
     title: "Python'un yaratıcısı (1991) · Açık pozisyonlara açığım",
     time: "6h",
-    text: "\"Kıdemli Python Geliştirici\" ilanına başvurdum.\n\nİlanda \"en az 20 yıl Python deneyimi\" yazıyordu. Bende 34 yıl var. Uygun olduğumu düşündüm.\n\nBugün red maili geldi:\n\n\"Girintilemeye gereğinden fazla önem verdiğiniz gözlemlenmiş olup, ekip içi biçimlendirme tartışmalarında uzlaşmaz bir tutum sergileyebileceğiniz değerlendirilmiştir.\"\n\nHaklılar. Sergilerim.\n\n#python #işarayışı #geribildirim",
+    text: "\"Kıdemli Python Geliştirici\" ilanına başvurdum.\n\nİlanda \"en az 20 yıl Python deneyimi\" yazıyordu. Bende 35 yıl var. Uygun olduğumu düşündüm.\n\nBugün red maili geldi:\n\n\"Girintilemeye gereğinden fazla önem verdiğiniz gözlemlenmiş olup, ekip içi biçimlendirme tartışmalarında uzlaşmaz bir tutum sergileyebileceğiniz değerlendirilmiştir.\"\n\nHaklılar. Sergilerim.\n\n#python #işarayışı #geribildirim",
     likes: "48.219",
     comments: "6.402 yorum",
   },

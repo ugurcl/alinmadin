@@ -105,10 +105,15 @@ document.getElementById("btn-wrapped-back").addEventListener("click", () => {
   showPhase("phase-listings");
 });
 
-document.getElementById("btn-wrapped-share").addEventListener("click", () => {
+function wrappedLine() {
   const d = wrappedData();
-  const text = encodeURIComponent(
-    `${new Date().getFullYear()} Red Karnem: ${d.total} red, ${d.waiting} yanıtsız başvuru, 0 işe alım. ${location.origin}`
-  );
-  window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
+  return `${new Date().getFullYear()} Red Karnem: ${d.total} red, ${d.waiting} yanıtsız başvuru, 0 işe alım. ${location.origin}`;
+}
+
+document.getElementById("btn-wrapped-share").addEventListener("click", () => {
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(wrappedLine())}`, "_blank");
+});
+
+document.getElementById("btn-wrapped-linkedin").addEventListener("click", () => {
+  document.getElementById("wrapped-note").textContent = shareOnLinkedIn(location.origin, wrappedLine());
 });

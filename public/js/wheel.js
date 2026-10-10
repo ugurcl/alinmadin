@@ -62,6 +62,8 @@ const wheelCountEl = document.getElementById("wheel-count");
 const spinBtn = document.getElementById("btn-spin");
 const wheelCopyBtn = document.getElementById("btn-wheel-copy");
 const wheelTweetBtn = document.getElementById("btn-wheel-tweet");
+const wheelLinkedInBtn = document.getElementById("btn-wheel-linkedin");
+const wheelLine = () => `${wheelText}\n\n(bahane çarkı: ${location.origin}/cark)`;
 
 let wheelSpinning = false;
 let wheelText = "";
@@ -92,6 +94,7 @@ function spinWheel() {
   wheelNote.textContent = "";
   wheelCopyBtn.hidden = true;
   wheelTweetBtn.hidden = true;
+  wheelLinkedInBtn.hidden = true;
   wheelSlot.classList.add("spinning");
   wheelSlot.classList.remove("settled");
 
@@ -118,6 +121,7 @@ function spinWheel() {
     spinBtn.textContent = "Bir Daha Çevir";
     wheelCopyBtn.hidden = false;
     wheelTweetBtn.hidden = false;
+    wheelLinkedInBtn.hidden = false;
     wheelSpinning = false;
   };
 
@@ -134,8 +138,12 @@ wheelCopyBtn.addEventListener("click", async () => {
 
 wheelTweetBtn.addEventListener("click", () => {
   if (!wheelText) return;
-  const text = encodeURIComponent(`${wheelText}\n\n(bahane çarkı: ${location.origin}/cark)`);
-  window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(wheelLine())}`, "_blank");
+});
+
+wheelLinkedInBtn.addEventListener("click", () => {
+  if (!wheelText) return;
+  wheelNote.textContent = shareOnLinkedIn(`${location.origin}/cark`, wheelLine());
 });
 
 function openWheel() {

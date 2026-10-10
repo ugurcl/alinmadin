@@ -153,11 +153,11 @@ const BUKET_PROFILE = {
   name: "Buket K.",
   title: "Kıdemli İnsan Kaynakları İş Ortağı",
   company: "Vizyoner Global Teknoloji A.Ş.",
-  meta: "İstanbul · 12.482 bağlantı · Aynı pozisyonda 12 yıl",
+  meta: "İstanbul · 12.482 bağlantı · Aynı pozisyonda 13 yıl",
   about:
     "İnsan odaklı bir İK yaklaşımı benimsiyorum. Her adayın hikâyesi değerlidir ve her hikâye bir yerde biter. Kariyerim boyunca 84.000'den fazla adayla temas kurdum, hiçbirini işe almadım. Tutarlılık benim için bir değerdir.",
   experience: [
-    { role: "Kıdemli İK İş Ortağı", org: "Vizyoner Global Teknoloji A.Ş.", time: "2013 — halen · 12 yıl" },
+    { role: "Kıdemli İK İş Ortağı", org: "Vizyoner Global Teknoloji A.Ş.", time: "2013 — halen · 13 yıl" },
     { role: "İK Uzmanı", org: "Vizyoner Global Teknoloji A.Ş.", time: "2011 — 2013 · 2 yıl" },
     { role: "İK Asistanı", org: "Vizyoner Global Teknoloji A.Ş.", time: "2010 — 2011 · 1 yıl" },
   ],
@@ -171,7 +171,7 @@ const BUKET_PROFILE = {
   awards: [
     "Ayın İK Uzmanı — Mart 2019",
     "En Hızlı Red Süresi Ödülü — 2021 (2 dk 04 sn)",
-    "Sıfır İşe Alım Rozeti — 12 yıl kesintisiz",
+    "Sıfır İşe Alım Rozeti — 13 yıl kesintisiz",
   ],
 };
 

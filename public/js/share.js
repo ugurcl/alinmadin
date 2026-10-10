@@ -1,52 +1,91 @@
 const shareBtn = document.getElementById("btn-share");
 const shareNote = document.getElementById("share-note");
 
+const linkedInBtn = document.getElementById("btn-linkedin");
+const LINKEDIN_NOTE = "Metin kopyalandı. LinkedIn'de yapıştırın; tebrik eden çıkacaktır.";
+
+function copyNow(text) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.style.cssText = "position:fixed;opacity:0";
+  document.body.appendChild(area);
+  area.select();
+  const ok = document.execCommand("copy");
+  area.remove();
+  return ok;
+}
+
 async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
     return true;
   } catch {
-    const area = document.createElement("textarea");
-    area.value = text;
-    area.style.cssText = "position:fixed;opacity:0";
-    document.body.appendChild(area);
-    area.select();
-    const ok = document.execCommand("copy");
-    area.remove();
-    return ok;
+    return copyNow(text);
   }
 }
 
+function linkedInUrl(url) {
+  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+}
+
+function shareOnLinkedIn(url, text) {
+  const copied = copyNow(text);
+  window.open(linkedInUrl(url), "_blank");
+  return copied ? LINKEDIN_NOTE : "";
+}
+
+async function ensureShareUrl() {
+  if (state.shareUrl) return state.shareUrl;
+  const res = await fetch("/api/share", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: state.name,
+      position: state.position,
+      company: state.listing?.company || "",
+      letter: document.getElementById("rejection-text").textContent,
+      seconds: state.durationSeconds || 0,
+    }),
+  });
+  const data = await res.json();
+  if (!data.id) throw new Error(data.error || "no id");
+  state.shareUrl = `${location.origin}/r/${data.id}`;
+  return state.shareUrl;
+}
+
+const rejectionLine = (url) => `"${state.listing?.title}" pozisyonundan resmen reddedildim. Red mektubum: ${url}`;
+
 shareBtn.addEventListener("click", async () => {
-  if (state.shareUrl) {
-    await copyText(state.shareUrl);
-    shareNote.textContent = `Kopyalandı: ${state.shareUrl}`;
-    return;
+  const fresh = !state.shareUrl;
+  if (fresh) {
+    shareBtn.disabled = true;
+    shareBtn.textContent = "Hazırlanıyor...";
   }
-  shareBtn.disabled = true;
-  shareBtn.textContent = "Hazırlanıyor...";
   try {
-    const res = await fetch("/api/share", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: state.name,
-        position: state.position,
-        company: state.listing?.company || "",
-        letter: document.getElementById("rejection-text").textContent,
-        seconds: state.durationSeconds || 0,
-      }),
-    });
-    const data = await res.json();
-    if (!data.id) throw new Error(data.error || "no id");
-    state.shareUrl = `${location.origin}/r/${data.id}`;
-    await copyText(state.shareUrl);
-    shareNote.textContent = `Kopyalandı: ${state.shareUrl}`;
+    const url = await ensureShareUrl();
+    await copyText(url);
+    shareNote.textContent = `Kopyalandı: ${url}`;
   } catch {
     shareNote.textContent = "Link oluşturulamadı. Bu da bir red sayılır.";
   }
   shareBtn.disabled = false;
   shareBtn.textContent = "Linki Kopyala";
+});
+
+linkedInBtn.addEventListener("click", async () => {
+  if (state.shareUrl) {
+    shareNote.textContent = shareOnLinkedIn(state.shareUrl, rejectionLine(state.shareUrl));
+    return;
+  }
+  const tab = window.open("", "_blank");
+  let url = location.origin;
+  try {
+    url = await ensureShareUrl();
+  } catch {
+    shareNote.textContent = "Link oluşturulamadı. Bu da bir red sayılır.";
+  }
+  if (tab) tab.location = linkedInUrl(url);
+  else window.open(linkedInUrl(url), "_blank");
 });
 
 async function loadSharedRejection() {
@@ -65,6 +104,8 @@ async function loadSharedRejection() {
       : "";
     renderCertificate(data.name, data.position, data.letter, data.company);
     document.getElementById("btn-share").hidden = true;
+    linkedInBtn.hidden = true;
+    document.getElementById("btn-tweet").hidden = true;
     document.querySelector(".appeal-zone").hidden = true;
     document.getElementById("btn-retry").textContent = "Sen de reddedil";
     showPhase("phase-rejection");

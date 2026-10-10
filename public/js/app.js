@@ -616,9 +616,7 @@ chatForm.addEventListener("submit", (e) => {
 document.getElementById("btn-download").addEventListener("click", downloadCertificate);
 
 document.getElementById("btn-tweet").addEventListener("click", () => {
-  const text = encodeURIComponent(
-    `"${state.listing?.title}" pozisyonundan resmen reddedildim. Red mektubum: ${state.shareUrl || location.origin}`
-  );
+  const text = encodeURIComponent(rejectionLine(state.shareUrl || location.origin));
   window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
 });
 
@@ -705,6 +703,8 @@ document.getElementById("btn-retry").addEventListener("click", () => {
   document.getElementById("apply-form").reset();
   document.getElementById("share-note").textContent = "";
   document.getElementById("btn-share").hidden = false;
+  document.getElementById("btn-linkedin").hidden = false;
+  document.getElementById("btn-tweet").hidden = false;
   resetRival();
   showPhase("phase-listings");
   activateTab("feed");
