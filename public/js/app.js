@@ -727,9 +727,7 @@ if (!sessionStorage.getItem("redin_cookies")) {
 document.querySelectorAll(".cookie-accept").forEach((btn) =>
   btn.addEventListener("click", () => {
     sessionStorage.setItem("redin_cookies", "1");
-    document.getElementById("cookie-text").textContent = btn.dataset.reject
-      ? "Reddetme tercihiniz kabul olarak kaydedildi."
-      : "Tercihiniz kaydedildi. (Zaten tek tercihti.)";
+    document.getElementById("cookie-text").textContent = "Reddetme tercihiniz kabul olarak kaydedildi.";
     document.querySelector(".cookie-actions").remove();
     setTimeout(() => cookieBanner.classList.add("cookie-out"), 1600);
     setTimeout(() => cookieBanner.remove(), 2200);
