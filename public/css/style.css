@@ -79,26 +79,33 @@ body {
 }
 
 .brand-logo {
-  background: linear-gradient(135deg, #e04a3f, #b12318);
-  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  color: var(--text);
   font-weight: 800;
   font-size: 1.3rem;
-  padding: 4px 12px;
-  border-radius: 9px;
-  letter-spacing: 0.5px;
-  box-shadow: 0 3px 10px rgba(255, 77, 79, 0.35);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.brand-mark {
+  width: 21px;
+  height: 30px;
 }
 
 .search {
   display: flex;
   align-items: center;
   gap: 8px;
+  height: 38px;
   background: var(--raised);
   border: 1px solid transparent;
   border-radius: 24px;
-  padding: 8px 16px;
+  padding: 0 16px;
   flex: 1;
-  max-width: 400px;
+  max-width: 320px;
   min-width: 140px;
   transition: border-color 0.2s ease;
 }
@@ -108,6 +115,8 @@ body {
 }
 
 .search input {
+  margin: 0;
+  padding: 0;
   border: none;
   background: transparent;
   font-size: 0.9rem;
